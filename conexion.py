@@ -1,5 +1,7 @@
 from PyQt5 import QtWidgets, QtSql
 import var
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 class Conexion:
 
@@ -277,18 +279,45 @@ class Libros:
 class Socios:
 
     def actualizarSocios(self):
-        print('Pendiente')
+        '''Función para actualizar de forma automática cada vez que se abra el programa
+        las sanciones de los socios. Si ya a pasado la fecha de su sanción, esta se eliminará y se
+        le quitará la multa'''
+        sociosSancionExpirada=[]#Lista
+        hoy = datetime.now()
+        query = QtSql.QSqlQuery()
+        query.prepare('select numSocio, fmulta from socios')
+        if query.exec_():
+            while query.next():
+                numSocio = str(query.value(0))
+                fmulta = query.value(1)
 
-    #No dejar que los socios cojan más de 3 libros #Creo que ya lo controlé en gyuardarPrestamo
+                if fmulta != '':
+                    fsancion = datetime.strptime(fmulta, "%d/%m/%Y")
+                    if hoy > fsancion:
+                        sociosSancionExpirada.append(numSocio)
 
-    def modificarNumeroLibrosSocio(numSocio):
+        for i in sociosSancionExpirada:
+            query = QtSql.QSqlQuery()
+            query.prepare(
+                'update socios set multa=:multa, fmulta=:fmulta where numSocio=:numSocio')
+            query.bindValue(':numSocio', i)
+            query.bindValue(':multa', 'False')
+            query.bindValue(':fmulta', '')
+            if query.exec_():
+                print('SOCIO ACTUALIZADO')
+
+
+    def modificarNumeroLibrosSocio(numSocio, devuelto):
         query1 = QtSql.QSqlQuery()
         query1.prepare('select numLibros from socios where numSocio=:numSocio')
         query1.bindValue(':numSocio', numSocio)
         if query1.exec_():
             while query1.next():
                 numLibros = query1.value(0)
-        numLibros=numLibros+1
+        if devuelto=='True':
+            numLibros=numLibros-1
+        elif devuelto=='False':
+            numLibros=numLibros+1
 
         query = QtSql.QSqlQuery()
         query.prepare(
@@ -303,7 +332,7 @@ class Socios:
 
     def socioAptoPrestamo(numSocio):
         try:
-            disponible=False
+            socioApto=False
             query = QtSql.QSqlQuery()
             query.prepare('select multa, numLibros from socios where numSocio=:numSocio')
             query.bindValue(':numSocio', numSocio)
@@ -312,10 +341,10 @@ class Socios:
                     multa = str(query.value(0))
                     numLibros = query.value(1)
                     if(multa=='False' and numLibros<3):
-                        disponible=True
-            return disponible
+                        socioApto=True
+            return socioApto
         except Exception as error:
-            print('Error disponibilidad socio: %s' % str(error))
+            print('Error socio apto prestamo: %s' % str(error))
 
     def guardarSocio(socio):
         query=QtSql.QSqlQuery()

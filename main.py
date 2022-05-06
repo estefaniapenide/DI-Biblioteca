@@ -22,6 +22,7 @@ class Main(QtWidgets.QMainWindow):
         #************************************+CONEXIÓN BD***********************************************
         var.filedb = 'biblioteca.db'
         conexion.Conexion.db_connect(var.filedb)
+        conexion.Socios.actualizarSocios(self)
         conexion.Libros.mostrarLibros(self)
         conexion.Prestamos.mostrarPrestamos(self)
         conexion.Socios.mostrarSocios(self)

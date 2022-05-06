@@ -59,16 +59,17 @@ class Prestamos:
             print('Multa: ',multa)
             print('Fecha multa: ',fmulta)
 
-            #actualizar los datos del socio y del libro(ver como hacer lo del libro)
-            #Actualizar las multas y la fecha de sanción ene el socio!!
+            # Actualizar las multas y la fecha de sanción ene el socio!!
+
+
+            #actualizar los datos del socio y del libro(ver como hacer lo del libro)#Creo que ya lo controlé en guardar prestamo
+
         except Exception as error:
             print('Excepcion gestion multa: ',str(error))
 
     #cuando haga el meétdo para modificar un préstamo, hacerlo de manera que solo se va pedir el codlibro, devuelto (como false)
     #y que solo modificará el devuelto y la fecha de devolucion
 
-    #hacer el metodo actualizarSocios para ejecutar en el main cuando se abre el programa, si la fecha de hoy es superior a la fecha
-    #de sanción, hay que borrar la fecha de sanción y cambiar la multa a False# Quizá hacer esto en el método que está pendiente por hacer en conexion.actualizarSocios
 
     def guardarPrestamo(self):
         try:
@@ -77,11 +78,12 @@ class Prestamos:
             if conexion.Libros.libroDisponible(prestamo[1]):
                 if conexion.Socios.socioAptoPrestamo(prestamo[0]):
                     conexion.Prestamos.guardarPrestamo(prestamo)
-                    #Igual las dos siguientes lineas estarían mejor al final de gestion multas (dentro del método)
-                    conexion.Socios.modificarNumeroLibrosSocio(prestamo[0])#Pendiente de modificar, porque si devuelto es True, entonces se resta o se deja ocmo está el número de libros que tiene en casa
-                    conexion.Libros.modificarDisponibilidadLibro(prestamo[1],prestamo[4])#Pendiente revisar que funciona bien
                     Prestamos.gestionMultas(prestamo)
+                    conexion.Socios.modificarNumeroLibrosSocio(prestamo[0],prestamo[4])  # Pendiente revisar que funciona bien
+                    conexion.Libros.modificarDisponibilidadLibro(prestamo[1],prestamo[4])  # Pendiente revisar que funciona bien
                     conexion.Prestamos.mostrarPrestamos(self)
+                    conexion.Libros.mostrarLibros(self)
+                    conexion.Socios.mostrarSocios(self)
                 else:
                     print('EL SOCIO TIENE MULTA O EL NÚMERO DE SOCIO NO EXISTE O NO PUEDE PEDIR MÁS LIBROS PRESTADOS')
             else:
