@@ -51,3 +51,17 @@ class Calendario:
         except Exception as error:
             print('Error cargar fecha sancion: %' % str(error))
 
+class Aviso:
+
+    def abrirVentanaAviso(self):
+        try:
+            var.uiAviso.show()
+        except Exception as error:
+            print('Error abrir aviso: %s' % str(error))
+
+    def cerrarVentanaAviso(self):
+        try:
+            var.uiAviso.hide()
+        except Exception as error:
+            print('Error cerrar aviso: %s' % str(error))
+

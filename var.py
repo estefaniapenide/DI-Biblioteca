@@ -2,7 +2,9 @@ global ui
 global uiCalendarioPrestamo
 global uiCalendarioDevolucion
 global uiCalendarioSancion
+global uiAviso
 global filedb
+global mensajeAviso
 
 #LIBROS
 global estadoLibro

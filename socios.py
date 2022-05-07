@@ -100,6 +100,35 @@ class Socios:
                 #var.ui.tbEstado.setText("DEBE CUBRIR LOS CAMPOS OBLIGATORIOS")
                 print('Error guardar socio (socios): %s ' % str(error))
 
+    def buscarSocioNum(self):
+        id = var.ui.lineEditNumeroSocio.text()
+        if conexion.Socios.existeSocioNumero(id):
+            conexion.Socios.buscarSocioNumero(id)
+
+            Socios.limpiarSocio(self)
+
+            var.ui.lineEditDni.setText(var.dni)
+            var.ui.lineEditNumeroSocio.setText(str(var.numSocio))
+            var.ui.labelNumSocioGenerado.setText(str(var.numSocio))
+            var.ui.lineEditNombre.setText(var.nombre)
+            var.ui.lineEditApellidos.setText(var.apellidos)
+            var.ui.lineEditDireccion.setText(var.direccion)
+            var.ui.spinBoxNumLibros.setValue(var.numLibros)
+
+            if (var.sexo == 'Mujer'):
+                var.ui.radioButtonMujer.click()
+            elif (var.sexo == 'Hombre'):
+                var.ui.radioButtonHombre.click()
+
+            # var.ui.tbEstado.setText('CLIENTE DNI %s ENCONTRADO' % id)
+
+        else:
+            Socios.limpiarSocio(self)
+            var.ui.lineEditNumeroSocio.setText(id)
+            conexion.Socios.mostrarSocios(self)
+            # var.ui.tbEstado.setText('CLIENTE DNI %s NO ENCONTRADO' % id)
+            # var.ui.lineEditCodigo.setText(id)
+
     def buscarSocioDni(self):
         if Socios.validarDNI():
             dni = var.ui.lineEditDni.text()
@@ -125,7 +154,7 @@ class Socios:
 
             else:
                 Socios.limpiarSocio(self)
-                var.ui.lineEditNumeroSocio.setText(dni)
+                var.ui.lineEditDni.setText(dni)
                 conexion.Socios.mostrarSocios(self)
                 #var.ui.tbEstado.setText('CLIENTE DNI %s NO ENCONTRADO' % id)
                 #var.ui.lineEditCodigo.setText(id)
@@ -137,6 +166,7 @@ class Socios:
         var.ui.lineEditDni.setText("")
         var.ui.labelValidarDni.setText("")
         var.ui.lineEditNombre.setText("")
+        var.ui.lineEditApellidos.setText("")
         var.ui.lineEditDireccion.setText("")
         Socios.esconderFechaSancion(self)
 

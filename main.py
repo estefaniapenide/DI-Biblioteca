@@ -1,3 +1,5 @@
+from PyQt5.QtWidgets import QVBoxLayout, QLabel, QPushButton
+
 import eventos
 import libros
 import var
@@ -8,6 +10,7 @@ from ventanaBiblioteca import *
 import ventanaCalendarioPrestamo
 import ventanaCalendarioDevolucion
 import ventanaCalendarioSancion
+import ventanaAviso
 import sys
 from datetime import datetime
 
@@ -34,13 +37,9 @@ class Main(QtWidgets.QMainWindow):
         #Seleccionar fechas préstamo y devolución
         var.ui.pushButtonCalendario.clicked.connect(eventos.Calendario.abrirCalendarioPrestamo)
         var.ui.pushButtonCalendarioDevolucion.clicked.connect(eventos.Calendario.abrirCalendarioDevolucion)
-        #Seleccionar Devuelto y visibilidad Fecha Devolucion
-        prestamos.Prestamos.seleccionarDevuelto(self)
-        prestamos.Prestamos.visibilidadFechaDevolucion(self)
-        var.ui.buttonGroupDevuelto.buttonToggled.connect(prestamos.Prestamos.seleccionarDevuelto)
-        var.ui.buttonGroupDevuelto.buttonToggled.connect(prestamos.Prestamos.visibilidadFechaDevolucion)
         # Botones guardar, elimninar, modificar, limpiar
         var.ui.pushButtonGuardarPrestamo.clicked.connect(prestamos.Prestamos.guardarPrestamo)
+        var.ui.pushButtonGuardarDevolucion.clicked.connect(prestamos.Prestamos.modificarPrestamo)
         #****************************************************************************************************
 
 
@@ -90,7 +89,9 @@ class Main(QtWidgets.QMainWindow):
         var.ui.pushButtonGuardarSocio.clicked.connect(socios.Socios.guardarSocio)
         # Búsquedas
         var.ui.pushButtonBuscarDni.clicked.connect(socios.Socios.buscarSocioDni)
+        var.ui.pushButtonBuscarNumSocio.clicked.connect(socios.Socios.buscarSocioNum)#NO funciona!! Ver qué pasa
         # ****************************************************************************************************
+
 
 class CalendarioPrestamo(QtWidgets.QDialog):
 
@@ -136,6 +137,23 @@ class CalendarioSancion(QtWidgets.QDialog):
         var.uiCalendarioSancion.calendarioSancion.clicked.connect(eventos.Calendario.cargarFechaSancion)
 
 
+class Aviso(QtWidgets.QDialog):
+    def __init__(self):
+        super(Aviso,self).__init__()
+        var.uiAviso = ventanaAviso.Ui_DialogAviso()
+        var.uiAviso.setupUi(self)
+        self.setWindowTitle("HELLO!")
+
+        QBtn = QPushButton.pushButtonOK
+
+        self.pushButton = QPushButton(QBtn)
+        self.pushButton.clicked.connect(eventos.Aviso.cerrarVentanaAviso)
+
+        self.layout = QVBoxLayout()
+        var.mensajeAviso = QLabel("Mensaje de aviso")
+        self.layout.addWidget(var.mensajeAviso)
+        #self.layout.addWidget(self.buttonBox)
+        self.setLayout(self.layout)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
@@ -143,5 +161,6 @@ if __name__ == '__main__':
     var.uiCalendarioPrestamo = CalendarioPrestamo()
     var.uiCalendarioDevolucion = CalendarioDevolucion()
     var.uiCalendarioSancion = CalendarioSancion()
+    var.uiAviso = Aviso()
     window.show()
     sys.exit(app.exec())

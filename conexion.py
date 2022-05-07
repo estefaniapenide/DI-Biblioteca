@@ -42,7 +42,7 @@ class Libros:
         except Exception as error:
             print('Error disponibilidad libro: %s' % str(error))
 
-    def modificarDisponibilidadLibro(codigoLibro, devuelto):#'comprobar que esto funciona bien'
+    def modificarDisponibilidadLibro(codigoLibro, devuelto):
         print('comprobar que esto funciona bien')
         if devuelto == 'False':
             estadoLibro='PRESTADO'
@@ -308,6 +308,7 @@ class Socios:
 
 
     def modificarNumeroLibrosSocio(numSocio, devuelto):
+        numLibros=0
         query1 = QtSql.QSqlQuery()
         query1.prepare('select numLibros from socios where numSocio=:numSocio')
         query1.bindValue(':numSocio', numSocio)
@@ -424,6 +425,21 @@ class Socios:
         except Exception as error:
             print('Error existe socio dni: %s' % str(error))
 
+    def existeSocioNumero(numSocio):
+        try:
+            salida = False
+            query = QtSql.QSqlQuery()
+            query.prepare('select numSocio from socios')
+            if query.exec_():
+                while query.next():
+                    socio = query.value(0)
+                    if (socio == numSocio):
+                        salida = True
+            return salida
+        except Exception as error:
+            print('Error existe socio numero: %s' % str(error))
+
+
     def buscarSocioDni(dni):
         try:
             query = QtSql.QSqlQuery()
@@ -433,6 +449,18 @@ class Socios:
             Socios.resultadosBusqueda(query)
         except Exception as error:
             print('Error buscar libro estado: %s' % str(error))
+
+
+    def buscarSocioNumero(numSocio):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare(
+                'select numSocio, dni, nombre, apellidos, direccion, sexo, multa, fmulta ,numLibros from socios where numSocio=:numSocio')
+            query.bindValue(':numSocio', numSocio)
+            Socios.resultadosBusqueda(query)
+        except Exception as error:
+            print('Error numero Socio : %s' % str(error))
+
 
     def resultadosBusqueda(query):
         index = 0
@@ -463,19 +491,34 @@ class Socios:
             print('Error buscar socio: ', query.lastError().text())
 
 
+    def gestionMulta(numSocio, multa, fmulta):
+        query = QtSql.QSqlQuery()
+        query.prepare(
+            'update socios set multa=:multa, fmulta=:fmulta where numSocio=:numSocio')
+        query.bindValue(':numSocio', str(numSocio))
+        query.bindValue(':multa', multa)
+        query.bindValue(':fmulta', fmulta)
+        if query.exec_():
+            print('MULTA SOCIO MODIFICADA')
+            # var.ui.tbEstado.setText('LIBRO CON CODIGO %s HA SIDO MODIFICADO' % codigo)
+        else:
+            print('Error modificar multa socio: ', query.lastError().text())
+
+
+
+
 #CONEXION DE LOS PRÉSTAMOS
 class Prestamos:
 
     def guardarPrestamo(prestamo):
         query=QtSql.QSqlQuery()
-        query.prepare('insert into prestamos (numSocio, codLibro, desde, hasta, devuelto, fdevolucion)'
-                      'VALUES (:numSocio, :codLibro, :desde, :hasta, :devuelto,:fdevolucion)')
+        query.prepare('insert into prestamos (numSocio, codLibro, desde, hasta, devuelto)'
+                      'VALUES (:numSocio, :codLibro, :desde, :hasta, :devuelto)')
         query.bindValue(':numSocio', str(prestamo[0]))
         query.bindValue(':codLibro', str(prestamo[1]))
         query.bindValue(':desde', str(prestamo[2]))
         query.bindValue(':hasta', str(prestamo[3]))
         query.bindValue(':devuelto', str(prestamo[4]))
-        query.bindValue(':fdevolucion', str(prestamo[5]))
 
         if query.exec_():
             #var.ui.tbEstado.setText("CLIENTE DNI '" +cliente[0] + "' HA SIDO DADO DE ALTA")
@@ -518,3 +561,43 @@ class Prestamos:
                 print('Error mostrar libros: ',query.lastError().text())
         except Exception as error:
             print('Excepcion aaaa: ', error)
+
+
+    def modificarPrestamo(codLibro, fdevolucion):
+        query = QtSql.QSqlQuery()
+        query.prepare(
+            'update prestamos set devuelto=:devuelto, fdevolucion=:fdevolucion where codLibro=:codLibro and devuelto="False"')
+        query.bindValue(':codLibro', codLibro)
+        query.bindValue(':devuelto', 'True')
+        query.bindValue(':fdevolucion', fdevolucion)
+        if query.exec_():
+            print('DEVOLUCIÓN REALIZADA')
+            # var.ui.tbEstado.setText('LIBRO CON CODIGO %s HA SIDO MODIFICADO' % codigo)
+        else:
+            print('Error devolucion prestamo: ', query.lastError().text())
+
+    def obtenerPrestamoDevolucion(codLibro):
+        print(int(codLibro))
+        numSocio=''
+        cod=''
+        desde=''
+        hasta=''
+        devuelto=''
+        fdevolucion=''
+        query = QtSql.QSqlQuery()
+        # pestamo=[numSocio,codLibro,desde,hasta,devuelto,fdevolucion]
+        query.prepare('select numSocio, codLibro, desde, hasta, devuelto, fdevolucion from prestamos where codLibro=:codLibro and devuelto=:devuelto')
+        query.bindValue(':codLibro', int(codLibro))
+        query.bindValue(':devuelto', 'False')
+        if query.exec_():
+            while query.next():
+                numSocio = str(query.value(0))
+                cod = str(query.value(1))
+                desde = query.value(2)
+                hasta = query.value(3)
+                devuelto = str(query.value(4))
+                fdevolucion = query.value(5)
+        print(numSocio)
+        prestamo=[numSocio,codLibro,desde,hasta,devuelto,fdevolucion]
+        return prestamo
+
