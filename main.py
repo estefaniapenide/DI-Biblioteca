@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QVBoxLayout, QLabel, QPushButton
+from PyQt5.QtWidgets import QVBoxLayout, QLabel, QPushButton, QDialogButtonBox, QMessageBox
 
 import eventos
 import libros
@@ -137,23 +137,13 @@ class CalendarioSancion(QtWidgets.QDialog):
         var.uiCalendarioSancion.calendarioSancion.clicked.connect(eventos.Calendario.cargarFechaSancion)
 
 
-class Aviso(QtWidgets.QDialog):
+class Aviso(QtWidgets.QMessageBox):
     def __init__(self):
         super(Aviso,self).__init__()
         var.uiAviso = ventanaAviso.Ui_DialogAviso()
         var.uiAviso.setupUi(self)
-        self.setWindowTitle("HELLO!")
+        self.setWindowTitle("AVISO")
 
-        QBtn = QPushButton.pushButtonOK
-
-        self.pushButton = QPushButton(QBtn)
-        self.pushButton.clicked.connect(eventos.Aviso.cerrarVentanaAviso)
-
-        self.layout = QVBoxLayout()
-        var.mensajeAviso = QLabel("Mensaje de aviso")
-        self.layout.addWidget(var.mensajeAviso)
-        #self.layout.addWidget(self.buttonBox)
-        self.setLayout(self.layout)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

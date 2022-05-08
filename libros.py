@@ -1,3 +1,4 @@
+import eventos
 import libros
 import var
 import conexion
@@ -170,8 +171,8 @@ class Libros:
             Libros.limpiarLibro(self)
             var.ui.lineEditCodigo.setText(id)
             conexion.Libros.mostrarLibros(self)
-            #var.ui.tbEstado.setText('CLIENTE DNI %s NO ENCONTRADO' % id)
-            #var.ui.lineEditCodigo.setText(id)
+            eventos.Aviso.mensajeVentanaAviso('NO EXISTE EL LIBRO EN LA DB ')
+            eventos.Aviso.abrirVentanaAviso(self)
 
     def buscarLibroTitulo(self):
         titulo = var.ui.lineEditTitulo.text()
@@ -185,6 +186,8 @@ class Libros:
             Libros.limpiarLibro(self)
             var.ui.lineEditTitulo.setText(titulo)
             conexion.Libros.mostrarLibros(self)
+            eventos.Aviso.mensajeVentanaAviso('NO EXISTE EL LIBRO EN LA DB ')
+            eventos.Aviso.abrirVentanaAviso(self)
             print('NO EXISTE EL LIBRO EN LA DB ')
 
     def buscarLibroAutor(self):
@@ -199,7 +202,9 @@ class Libros:
             Libros.limpiarLibro(self)
             var.ui.lineEditAutor.setText(autor)
             conexion.Libros.mostrarLibros(self)
-            print('NO EXISTE EL LIBRO EN LA DB ')
+            eventos.Aviso.mensajeVentanaAviso('NO EXISTEN LIBROS DEL AUTOR '+autor.upper()+' EN LA BIBLIOTECA')
+            eventos.Aviso.abrirVentanaAviso(self)
+            print('NO EXISTEN LIBROS DEL AUTOR '+autor.upper()+' EN LA BIBLIOTECA')
 
 
     def buscarLibroGenero(self):
@@ -220,6 +225,9 @@ class Libros:
             elif (var.genero == "Ensayo"):
                 var.ui.comboBoxGenero.setCurrentIndex(4)
         else:
+            eventos.Aviso.mensajeVentanaAviso('NO HAY LIBROS DEL GÉNERO '+var.generoLibro.upper()+' EN LA BIBLIOTECA')
+            eventos.Aviso.abrirVentanaAviso(self)
+            print('NO HAY LIBROS DEL GÉNERO'+var.generoLibro.upper()+' EN LA BIBLIOTECA')
             Libros.limpiarLibro(self)
             if (var.generoLibro == ""):
                 var.ui.comboBoxGenero.setCurrentIndex(0)
@@ -232,7 +240,7 @@ class Libros:
             elif (var.generoLibro == "Ensayo"):
                 var.ui.comboBoxGenero.setCurrentIndex(4)
             conexion.Libros.mostrarLibros(self)
-            print('NO EXISTE EL LIBRO EN LA DB ')
+
 
     def buscarLibroEstado(self):
         estado = var.estadoLibro
@@ -246,10 +254,12 @@ class Libros:
             elif (var.estado == 'PRESTADO'):
                 var.ui.spinBoxEstado.setValue(1)
         else:
+            eventos.Aviso.mensajeVentanaAviso('NO HAY LIBROS ' + var.estadoLibro + 'S ')
+            eventos.Aviso.abrirVentanaAviso(self)
+            print('NO HAY LIBROS ' + var.estadoLibro + 'S ')
             Libros.limpiarLibro(self)
             if (var.estadoLibro == 'DISPONIBLE'):
                 var.ui.spinBoxEstado.setValue(0)
             elif (var.estadoLibro == 'PRESTADO'):
                 var.ui.spinBoxEstado.setValue(1)
             conexion.Libros.mostrarLibros(self)
-            print('NO EXISTE EL LIBRO EN LA DB ')

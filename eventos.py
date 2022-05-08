@@ -1,3 +1,5 @@
+from PyQt5.QtWidgets import QVBoxLayout, QLabel
+
 import var
 
 class Calendario:
@@ -64,4 +66,12 @@ class Aviso:
             var.uiAviso.hide()
         except Exception as error:
             print('Error cerrar aviso: %s' % str(error))
+
+    def mensajeVentanaAviso(mensaje):
+        var.uiAviso.setText(mensaje)
+        '''var.uiAviso.layout = QVBoxLayout()
+        var.mensajeAviso = QLabel(mensaje)
+        var.uiAviso.setLayout(var.uiAviso.layout)
+        var.uiAviso.layout.addWidget(var.mensajeAviso)'''
+
 

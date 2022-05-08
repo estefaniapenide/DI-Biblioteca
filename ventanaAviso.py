@@ -12,16 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_DialogAviso(object):
-
     def setupUi(self, DialogAviso):
         DialogAviso.setObjectName("DialogAviso")
         DialogAviso.resize(400, 300)
-        self.labelInfo = QtWidgets.QLabel(DialogAviso)
-        self.labelInfo.setGeometry(QtCore.QRect(54, 60, 301, 111))
-        self.labelInfo.setObjectName("labelInfo")
-        self.pushButtonOK = QtWidgets.QPushButton(DialogAviso)
-        self.pushButtonOK.setGeometry(QtCore.QRect(160, 220, 93, 28))
-        self.pushButtonOK.setObjectName("pushButtonOK")
 
         self.retranslateUi(DialogAviso)
         QtCore.QMetaObject.connectSlotsByName(DialogAviso)
@@ -29,5 +22,3 @@ class Ui_DialogAviso(object):
     def retranslateUi(self, DialogAviso):
         _translate = QtCore.QCoreApplication.translate
         DialogAviso.setWindowTitle(_translate("DialogAviso", "AVISO"))
-        self.labelInfo.setText(_translate("DialogAviso", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
-        self.pushButtonOK.setText(_translate("DialogAviso", "OK"))

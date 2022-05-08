@@ -13,32 +13,6 @@
   <property name="windowTitle">
    <string>AVISO</string>
   </property>
-  <widget class="QLabel" name="labelInfo">
-   <property name="geometry">
-    <rect>
-     <x>54</x>
-     <y>60</y>
-     <width>301</width>
-     <height>111</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButtonOK">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>220</y>
-     <width>93</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>OK</string>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>
