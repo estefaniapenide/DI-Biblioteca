@@ -618,7 +618,7 @@
        <rect>
         <x>130</x>
         <y>250</y>
-        <width>93</width>
+        <width>101</width>
         <height>28</height>
        </rect>
       </property>
@@ -629,9 +629,9 @@
      <widget class="QPushButton" name="pushButtonEliminarLibro">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>250</x>
         <y>250</y>
-        <width>93</width>
+        <width>101</width>
         <height>28</height>
        </rect>
       </property>
@@ -1258,14 +1258,27 @@
      <widget class="QPushButton" name="pushButtonEliminarSocio">
       <property name="geometry">
        <rect>
-        <x>160</x>
+        <x>280</x>
         <y>240</y>
-        <width>93</width>
+        <width>101</width>
         <height>28</height>
        </rect>
       </property>
       <property name="text">
        <string>Eliminar Socio</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonModificarSocio">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>240</y>
+        <width>101</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Modificar Socio</string>
       </property>
      </widget>
     </widget>

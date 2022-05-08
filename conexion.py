@@ -372,6 +372,26 @@ class Socios:
             #var.ui.tbEstado.setText("CLIENTE DNI '" + cliente[0] + "' YA EXISTE EN LA BD")
             print('Error guardar socio: ', query.lastError().text())
 
+    def modificarSocio(socio):
+        numSocio = socio[0]
+        query = QtSql.QSqlQuery()
+        query.prepare(
+            'update socios set dni=:dni, nombre=:nombre, apellidos=:apellidos,direccion=:dierccion, sexo=:sexo, multa=:multa, fmulta=:fmulta, numLibros=:numLibros where numSocio=:numSocio')
+        query.bindValue(':numSocio', str(numSocio))
+        query.bindValue(':dni', str(socio[1]))
+        query.bindValue(':nombre', str(socio[2]))
+        query.bindValue(':apellidos', str(socio[3]))
+        query.bindValue(':direccion', str(socio[4]))
+        query.bindValue(':sexo', str(socio[5]))
+        query.bindValue(':multa', str(socio[6]))
+        query.bindValue(':fmulta', str(socio[7]))
+        query.bindValue(':numLibros', str(socio[8]))
+        if query.exec_():
+            print('SOCIO MODIFICADO')
+            # var.ui.tbEstado.setText('LIBRO CON CODIGO %s HA SIDO MODIFICADO' % codigo)
+        else:
+            print('Error modificar SOCIO: ', query.lastError().text())
+
     def bajaSocio(numSocio):
         query = QtSql.QSqlQuery()
         query.prepare('delete from socios where numSocio = :numSocio')

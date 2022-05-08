@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QVBoxLayout, QLabel
+from PyQt5.QtWidgets import QVBoxLayout, QLabel, QDialogButtonBox
 
+import libros
 import var
 
 class Calendario:
@@ -73,5 +74,6 @@ class Aviso:
         var.mensajeAviso = QLabel(mensaje)
         var.uiAviso.setLayout(var.uiAviso.layout)
         var.uiAviso.layout.addWidget(var.mensajeAviso)'''
+
 
 

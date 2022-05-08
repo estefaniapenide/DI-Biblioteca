@@ -3,7 +3,6 @@ global uiCalendarioPrestamo
 global uiCalendarioDevolucion
 global uiCalendarioSancion
 global uiAviso
-global uiEliminar
 global filedb
 global mensajeAviso
 
@@ -12,6 +11,7 @@ global estadoLibro
 global generoLibro
 global etiquetas
 global checkBoxEtiquetas
+
 
 #variables para la búsqueda de un libro
 global codigo

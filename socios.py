@@ -106,9 +106,37 @@ class Socios:
             eventos.Aviso.mensajeVentanaAviso("EL DNI INTRODUCIDO NO ES VÁLIDO")
             eventos.Aviso.abrirVentanaAviso(self)
 
+    def modificarSocio(self):#Ver qué pasa con la dirección!!
+        if Socios.validarDNI():
+            try:
+                socio = [var.ui.labelNumSocioGenerado.text(), var.ui.lineEditDni.text(), var.ui.lineEditNombre.text(), var.ui.lineEditApellidos.text(), var.ui.lineEditDireccion.text(), var.sexoSocio, str(var.multaSocio),var.ui.lineEditSancionHasta.text(),str(var.numLibrosSocio)]
+                if (conexion.Socios.existeSocioNumero(socio[0])):
+                    conexion.Socios.modificarSocio(socio)
+                    eventos.Aviso.mensajeVentanaAviso('SOCIO MODIFICADO')
+                    eventos.Aviso.abrirVentanaAviso(self)
+                    conexion.Socios.mostrarSocios(self)
+                else:
+                    print('NO EXISTE EL SOCIO')
+                    if var.ui.labelNumSocioGenerado.text() == '':
+                        print("NO HA INTRODUCIDO NINGÚN NÚMERO DE SOCIO")
+                        eventos.Aviso.mensajeVentanaAviso("NO HA INTRODUCIDO NINGÚN NÚMERO DE SOCIO\nEN LA BARRA DE BÚSQUEDA")
+                        eventos.Aviso.abrirVentanaAviso(self)
+                        #var.ui.tbEstado.setText("NO HA INTRODUCIDO NINGÚN CÓDIGO")
+                    else:
+                        eventos.Aviso.mensajeVentanaAviso("NO EXISTE EL SOCIO '" + socio[0].text()+ "' EN LA BIBLIOTECA")
+                        eventos.Aviso.abrirVentanaAviso(self)
+                        print("NO EXISTE EL SOCIO " + socio[0].text()+ " EN LA BD")
+                        #var.ui.tbEstado.setText("LIBRO CON CÓDIGO '" + libro[0].text()+ "' NO EXISTE EN LA BD")
+            except Exception as error:
+                #var.ui.tbEstado.setText("DEBE CUBRIR LOS CAMPOS OBLIGATORIOS")
+                print('Error modificando socio: %s' % str(error))
+        else:
+            eventos.Aviso.mensajeVentanaAviso("EL DNI INTRODUCIDO NO ES VÁLIDO")
+            eventos.Aviso.abrirVentanaAviso(self)
+
     def eliminarSocio(self):
         try:
-            numSocio = var.ui.lineEditNumeroSocio.text()
+            numSocio = var.ui.labelNumSocioGenerado.text()
             if (conexion.Socios.existeSocioNumero(numSocio)):
                 conexion.Socios.bajaSocio(numSocio)
                 eventos.Aviso.mensajeVentanaAviso("SOCIO ELIMINADO")
@@ -118,7 +146,7 @@ class Socios:
                 #var.ui.tbEstado.setText("CLIENTE DNI '" + dni + "' HA SIDO DADO DE BAJA")
             else:
                 print('NO EXISTE EL SOCIO')
-                if var.ui.lineEditNumeroSocio.text()=='':
+                if var.ui.labelNumSocioGenerado.text()=='':
                     print("NO HA INTRODUCIDO NINGÚN NÚMERO DE SOCIO")
                     eventos.Aviso.mensajeVentanaAviso("NO HA INTRODUCIDO NINGÚN NÚMERO DE SOCIO\nEN LA BARRA DE BÚSQUEDA")
                     eventos.Aviso.abrirVentanaAviso(self)
@@ -150,6 +178,9 @@ class Socios:
                 var.ui.radioButtonMujer.click()
             elif (var.sexo == 'Hombre'):
                 var.ui.radioButtonHombre.click()
+
+            var.ui.pushButtonModificarSocio.setHidden(False)
+            var.ui.pushButtonEliminarSocio.setHidden(False)
 
             # var.ui.tbEstado.setText('CLIENTE DNI %s ENCONTRADO' % id)
 
@@ -183,6 +214,9 @@ class Socios:
                 elif (var.sexo == 'Hombre'):
                     var.ui.radioButtonHombre.click()
 
+                var.ui.pushButtonModificarSocio.setHidden(False)
+                var.ui.pushButtonEliminarSocio.setHidden(False)
+
                 #var.ui.tbEstado.setText('CLIENTE DNI %s ENCONTRADO' % id)
 
             else:
@@ -214,3 +248,6 @@ class Socios:
         var.ui.buttonGroupSexo.setExclusive(True)
 
         var.ui.spinBoxNumLibros.setValue(0)
+
+        var.ui.pushButtonModificarSocio.setHidden(True)
+        var.ui.pushButtonEliminarSocio.setHidden(True)

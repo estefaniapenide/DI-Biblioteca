@@ -76,20 +76,21 @@ class Libros:
             #var.ui.tbEstado.setText("DEBE CUBRIR LOS CAMPOS OBLIGATORIOS")
             print('Error guardar libro (libros): %s ' % str(error))
 
+
     def eliminarLibro(self):
         try:
-            codigo = var.ui.lineEditCodigo.text()
+            codigo = var.ui.labelCodigoGenerado.text()
             if (conexion.Libros.existeLibro(codigo)):
-                conexion.Libros.bajaLibro(codigo)
+                conexion.Libros.bajaLibro(var.libroEliminar)
                 eventos.Aviso.mensajeVentanaAviso("LIBRO ELIMINADO")
                 eventos.Aviso.abrirVentanaAviso(self)
                 conexion.Libros.mostrarLibros(self)
                 Libros.limpiarLibro(self)
-                #var.ui.tbEstado.setText("CLIENTE DNI '" + dni + "' HA SIDO DADO DE BAJA")
+
             else:
                 print('NO EXISTE EL CLIENTE')
-                if var.ui.lineEditCodigo.text()=='':
-                    print("NO HA INTRODUCIDO NINGÚN CÓDIGO")
+                if var.ui.labelCodigoGenerado.text()=='':
+                    print("NO HA SELECCIONADO NINGÚN LIBRO")
                     eventos.Aviso.mensajeVentanaAviso("NO HA INTRODUCIDO NINGÚN CÓDIGO DE LIBRO\nEN LA BARRA DE BÚSQUEDA")
                     eventos.Aviso.abrirVentanaAviso(self)
                     #var.ui.tbEstado.setText("NO HA INTRODUCIDO NINGÚN CÓDIGO")
@@ -104,7 +105,7 @@ class Libros:
 
     def modificarLibro(self):
         try:
-            libro = [var.ui.lineEditCodigo.text(), var.estadoLibro, var.ui.lineEditTitulo.text(), var.ui.lineEditAutor.text(), var.generoLibro, var.etiquetas]
+            libro = [var.ui.labelCodigoGenerado.text(), var.estadoLibro, var.ui.lineEditTitulo.text(), var.ui.lineEditAutor.text(), var.generoLibro, var.etiquetas]
             if (conexion.Libros.existeLibro(libro[0])):
                 conexion.Libros.modificarLibro(libro)
                 eventos.Aviso.mensajeVentanaAviso('LIBRO MODIFICADO')
@@ -141,6 +142,8 @@ class Libros:
         var.ui.checkBoxIntriga.setChecked(False)
         var.ui.checkBoxHistorica.setChecked(False)
         var.ui.checkBoxRomantica.setChecked(False)
+        var.ui.pushButtonModificarLibro.setHidden(True)
+        var.ui.pushButtonEliminarLibro.setHidden(True)
 
 
 
@@ -148,7 +151,6 @@ class Libros:
         id = var.ui.lineEditCodigo.text()
         if conexion.Libros.existeLibro(id):
             conexion.Libros.buscarLibroCodigo(id)
-            var.ui.pushButtonModificarLibro.setHidden(False)
 
             Libros.limpiarLibro(self)
 
@@ -156,6 +158,12 @@ class Libros:
             var.ui.labelCodigoGenerado.setText(str(var.codigo))
             var.ui.lineEditTitulo.setText(var.titulo)
             var.ui.lineEditAutor.setText(var.autor)
+
+            var.ui.pushButtonModificarLibro.setHidden(False)
+            var.ui.pushButtonEliminarLibro.setHidden(False)
+
+            #var.ui.pushButtonModificarLibro.setText("Modificar Libro Código  %s" % var.codigo)
+            #var.ui.pushButtonEliminarLibro.setText("Eliminar Libro Código  %s" % var.codigo)
 
             if (var.estado == 'DISPONIBLE'):
                 var.ui.spinBoxEstado.setValue(0)
