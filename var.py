@@ -3,6 +3,7 @@ global uiCalendarioPrestamo
 global uiCalendarioDevolucion
 global uiCalendarioSancion
 global uiAviso
+global uiEliminar
 global filedb
 global mensajeAviso
 

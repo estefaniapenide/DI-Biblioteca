@@ -58,7 +58,6 @@ class Libros:
 
     def guardarLibro(self):
         try:
-            var.etiquetas = []
             libro = [var.estadoLibro, var.ui.lineEditTitulo.text(), var.ui.lineEditAutor.text(), var.generoLibro, var.etiquetas]
 
             if var.ui.lineEditTitulo.text()!='':
@@ -105,7 +104,6 @@ class Libros:
 
     def modificarLibro(self):
         try:
-            var.etiquetas=[]
             libro = [var.ui.lineEditCodigo.text(), var.estadoLibro, var.ui.lineEditTitulo.text(), var.ui.lineEditAutor.text(), var.generoLibro, var.etiquetas]
             if (conexion.Libros.existeLibro(libro[0])):
                 conexion.Libros.modificarLibro(libro)
@@ -150,6 +148,7 @@ class Libros:
         id = var.ui.lineEditCodigo.text()
         if conexion.Libros.existeLibro(id):
             conexion.Libros.buscarLibroCodigo(id)
+            var.ui.pushButtonModificarLibro.setHidden(False)
 
             Libros.limpiarLibro(self)
 

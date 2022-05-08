@@ -215,6 +215,8 @@ class Libros:
                 var.genero = query.value(4)
                 var.etiqueta = query.value(5)
 
+                print(var.etiqueta)
+
                 var.ui.tablaLibros.setRowCount(index + 1)  # Crea la fila y a continuación mete los datos
                 var.ui.tablaLibros.setItem(index, 0, QtWidgets.QTableWidgetItem(str(var.codigo)))
                 var.ui.tablaLibros.setItem(index, 1, QtWidgets.QTableWidgetItem(var.estado))

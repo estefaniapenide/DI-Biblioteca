@@ -56,6 +56,8 @@ class Prestamos:
                     Prestamos.gestionMultas(prestamo)
                     conexion.Socios.modificarNumeroLibrosSocio(prestamo[0], prestamo[4])
                     conexion.Libros.modificarDisponibilidadLibro(prestamo[1],prestamo[4])
+                    eventos.Aviso.mensajeVentanaAviso('DEVOLUCIÓN REGISTRADA')
+                    eventos.Aviso.abrirVentanaAviso(self)
                     #conexion.Socios.actualizarSocios(self)
                     conexion.Prestamos.mostrarPrestamos(self)
                     conexion.Libros.mostrarLibros(self)
@@ -83,6 +85,8 @@ class Prestamos:
             if conexion.Libros.libroDisponible(prestamo[1]):
                 if conexion.Socios.socioAptoPrestamo(prestamo[0]):
                     conexion.Prestamos.guardarPrestamo(prestamo)
+                    eventos.Aviso.mensajeVentanaAviso('PRESTAMO REGISTRADO')
+                    eventos.Aviso.abrirVentanaAviso(self)
                     Prestamos.gestionMultas(prestamo)
                     conexion.Socios.modificarNumeroLibrosSocio(prestamo[0],prestamo[4])
                     conexion.Libros.modificarDisponibilidadLibro(prestamo[1],prestamo[4])
