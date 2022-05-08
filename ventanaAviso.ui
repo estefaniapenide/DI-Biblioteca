@@ -13,7 +13,13 @@
   <property name="windowTitle">
    <string>AVISO</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="recursos.qrc">
+    <normaloff>:/warning/img/warning.png</normaloff>:/warning/img/warning.png</iconset>
+  </property>
  </widget>
- <resources/>
+ <resources>
+  <include location="recursos.qrc"/>
+ </resources>
  <connections/>
 </ui>

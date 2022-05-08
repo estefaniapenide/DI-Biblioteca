@@ -13,14 +13,14 @@ class Socios:
             Socios.esconderFechaSancion(self)
 
     def esconderFechaSancion(self):
-        var.ui.lineEditSancionHasta.setText('')
+        var.ui.textBrowserSancionHasta.setText('')
         var.ui.labelSancionHasta.setHidden(True)
-        var.ui.lineEditSancionHasta.setHidden(True)
+        var.ui.textBrowserSancionHasta.setHidden(True)
         var.ui.pushButtonSancionHasta.setHidden(True)
 
     def mostrarFechaSancion(self):
         var.ui.labelSancionHasta.setHidden(False)
-        var.ui.lineEditSancionHasta.setHidden(False)
+        var.ui.textBrowserSancionHasta.setHidden(False)
         var.ui.pushButtonSancionHasta.setHidden(False)
 
     def seleccionarMulta(self):
@@ -91,7 +91,7 @@ class Socios:
     def guardarSocio(self):
         if Socios.validarDNI():
             try:
-                socio = [var.ui.lineEditDni.text(), var.ui.lineEditNombre.text(), var.ui.lineEditApellidos.text(), var.ui.lineEditDireccion.text(), var.sexoSocio, str(var.multaSocio),var.ui.lineEditSancionHasta.text(),str(var.numLibrosSocio)]
+                socio = [var.ui.lineEditDni.text(), var.ui.lineEditNombre.text(), var.ui.lineEditApellidos.text(), var.ui.lineEditDireccion.text(), var.sexoSocio, str(var.multaSocio),var.ui.textBrowserSancionHasta.toPlainText(),str(var.numLibrosSocio)]
 
                 conexion.Socios.guardarSocio(socio)
                 eventos.Aviso.mensajeVentanaAviso("SOCIO AÑADIDO")
@@ -106,10 +106,10 @@ class Socios:
             eventos.Aviso.mensajeVentanaAviso("EL DNI INTRODUCIDO NO ES VÁLIDO")
             eventos.Aviso.abrirVentanaAviso(self)
 
-    def modificarSocio(self):#Ver qué pasa con la dirección!!
+    def modificarSocio(self):
         if Socios.validarDNI():
             try:
-                socio = [var.ui.labelNumSocioGenerado.text(), var.ui.lineEditDni.text(), var.ui.lineEditNombre.text(), var.ui.lineEditApellidos.text(), var.ui.lineEditDireccion.text(), var.sexoSocio, str(var.multaSocio),var.ui.lineEditSancionHasta.text(),str(var.numLibrosSocio)]
+                socio = [var.ui.labelNumSocioGenerado.text(), var.ui.lineEditDni.text(), var.ui.lineEditNombre.text(), var.ui.lineEditApellidos.text(), var.ui.lineEditDireccion.text(), var.sexoSocio, str(var.multaSocio),var.ui.textBrowserSancionHasta.toPlainText(),str(var.numLibrosSocio)]
                 if (conexion.Socios.existeSocioNumero(socio[0])):
                     conexion.Socios.modificarSocio(socio)
                     eventos.Aviso.mensajeVentanaAviso('SOCIO MODIFICADO')
@@ -173,11 +173,18 @@ class Socios:
             var.ui.lineEditApellidos.setText(var.apellidos)
             var.ui.lineEditDireccion.setText(var.direccion)
             var.ui.spinBoxNumLibros.setValue(var.numLibros)
+            var.ui.textBrowserSancionHasta.setText(var.fmulta)
 
             if (var.sexo == 'Mujer'):
                 var.ui.radioButtonMujer.click()
             elif (var.sexo == 'Hombre'):
                 var.ui.radioButtonHombre.click()
+
+            if(var.multa=='True'):
+                var.ui.radioButtonMultaSi.click()
+            if(var.multa=='False'):
+                var.ui.radioButtonMultaNo.click()
+
 
             var.ui.pushButtonModificarSocio.setHidden(False)
             var.ui.pushButtonEliminarSocio.setHidden(False)
@@ -208,11 +215,17 @@ class Socios:
                 var.ui.lineEditApellidos.setText(var.apellidos)
                 var.ui.lineEditDireccion.setText(var.direccion)
                 var.ui.spinBoxNumLibros.setValue(var.numLibros)
+                var.ui.textBrowserSancionHasta.setText(var.fmulta)
 
                 if (var.sexo == 'Mujer'):
                     var.ui.radioButtonMujer.click()
                 elif (var.sexo == 'Hombre'):
                     var.ui.radioButtonHombre.click()
+
+                if (var.multa == 'True'):
+                    var.ui.radioButtonMultaSi.click()
+                if (var.multa == 'False'):
+                    var.ui.radioButtonMultaNo.click()
 
                 var.ui.pushButtonModificarSocio.setHidden(False)
                 var.ui.pushButtonEliminarSocio.setHidden(False)

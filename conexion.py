@@ -376,7 +376,7 @@ class Socios:
         numSocio = socio[0]
         query = QtSql.QSqlQuery()
         query.prepare(
-            'update socios set dni=:dni, nombre=:nombre, apellidos=:apellidos,direccion=:dierccion, sexo=:sexo, multa=:multa, fmulta=:fmulta, numLibros=:numLibros where numSocio=:numSocio')
+            'update socios set dni=:dni, nombre=:nombre, apellidos=:apellidos,direccion=:direccion, sexo=:sexo, multa=:multa, fmulta=:fmulta, numLibros=:numLibros where numSocio=:numSocio')
         query.bindValue(':numSocio', str(numSocio))
         query.bindValue(':dni', str(socio[1]))
         query.bindValue(':nombre', str(socio[2]))
@@ -421,13 +421,13 @@ class Socios:
                 var.ui.tablaSocios.setRowCount(index+1)#Crea la fila y a continuación mete los datos
                 var.ui.tablaSocios.setItem(index,0, QtWidgets.QTableWidgetItem(numSocio))
                 var.ui.tablaSocios.setItem(index,1, QtWidgets.QTableWidgetItem(dni))
-                var.ui.tablaSocios.setItem(index,2, QtWidgets.QTableWidgetItem(nombre))
-                var.ui.tablaSocios.setItem(index,3, QtWidgets.QTableWidgetItem(apellidos))
-                var.ui.tablaSocios.setItem(index,4, QtWidgets.QTableWidgetItem(direccion))
-                var.ui.tablaSocios.setItem(index, 5, QtWidgets.QTableWidgetItem(sexo))
-                var.ui.tablaSocios.setItem(index, 6, QtWidgets.QTableWidgetItem(multa))
-                var.ui.tablaSocios.setItem(index, 7, QtWidgets.QTableWidgetItem(fmulta))
-                var.ui.tablaSocios.setItem(index, 8, QtWidgets.QTableWidgetItem(numLibros))
+                var.ui.tablaSocios.setItem(index,2, QtWidgets.QTableWidgetItem(numLibros))
+                var.ui.tablaSocios.setItem(index,3, QtWidgets.QTableWidgetItem(multa))
+                var.ui.tablaSocios.setItem(index,4, QtWidgets.QTableWidgetItem(fmulta))
+                var.ui.tablaSocios.setItem(index, 5, QtWidgets.QTableWidgetItem(nombre))
+                var.ui.tablaSocios.setItem(index, 6, QtWidgets.QTableWidgetItem(apellidos))
+                var.ui.tablaSocios.setItem(index, 7, QtWidgets.QTableWidgetItem(direccion))
+                var.ui.tablaSocios.setItem(index, 8, QtWidgets.QTableWidgetItem(sexo))
                 index +=1
         else:
             #var.ui.tbEstado.setText("BASE DE DATOS NO COMPATIBLE")
@@ -513,13 +513,13 @@ class Socios:
                 var.ui.tablaSocios.setRowCount(index + 1)  # Crea la fila y a continuación mete los datos
                 var.ui.tablaSocios.setItem(index, 0, QtWidgets.QTableWidgetItem(str(var.numSocio)))
                 var.ui.tablaSocios.setItem(index, 1, QtWidgets.QTableWidgetItem(var.dni))
-                var.ui.tablaSocios.setItem(index, 2, QtWidgets.QTableWidgetItem(var.nombre))
-                var.ui.tablaSocios.setItem(index, 3, QtWidgets.QTableWidgetItem(var.apellidos))
-                var.ui.tablaSocios.setItem(index, 4, QtWidgets.QTableWidgetItem(var.direccion))
-                var.ui.tablaSocios.setItem(index, 5, QtWidgets.QTableWidgetItem(var.sexo))
-                var.ui.tablaSocios.setItem(index, 6, QtWidgets.QTableWidgetItem(var.multa))
-                var.ui.tablaSocios.setItem(index, 7, QtWidgets.QTableWidgetItem(var.fmulta))
-                var.ui.tablaSocios.setItem(index, 8, QtWidgets.QTableWidgetItem(str(var.numLibros)))
+                var.ui.tablaSocios.setItem(index, 2, QtWidgets.QTableWidgetItem(str(var.numLibros)))
+                var.ui.tablaSocios.setItem(index, 3, QtWidgets.QTableWidgetItem(var.multa))
+                var.ui.tablaSocios.setItem(index, 4, QtWidgets.QTableWidgetItem(var.fmulta))
+                var.ui.tablaSocios.setItem(index, 5, QtWidgets.QTableWidgetItem(var.nombre))
+                var.ui.tablaSocios.setItem(index, 6, QtWidgets.QTableWidgetItem(var.apellidos))
+                var.ui.tablaSocios.setItem(index, 7, QtWidgets.QTableWidgetItem(var.direccion))
+                var.ui.tablaSocios.setItem(index, 8, QtWidgets.QTableWidgetItem(var.sexo))
                 index += 1
         else:
             print('Error buscar socio: ', query.lastError().text())
@@ -574,14 +574,14 @@ class Prestamos:
                     desde = query.value(2)
                     hasta = query.value(3)
                     devuelto = str(query.value(4))
-                    fedevolucion = query.value(5)
+                    fdevolucion = query.value(5)
                     var.ui.tablaPrestamos.setRowCount(index+1)#Crea la fila y a continuación mete los datos
                     var.ui.tablaPrestamos.setItem(index,0, QtWidgets.QTableWidgetItem(numSocio))
                     var.ui.tablaPrestamos.setItem(index,1, QtWidgets.QTableWidgetItem(codLibro))
                     var.ui.tablaPrestamos.setItem(index,2, QtWidgets.QTableWidgetItem(desde))
                     var.ui.tablaPrestamos.setItem(index,3, QtWidgets.QTableWidgetItem(hasta))
                     var.ui.tablaPrestamos.setItem(index,4, QtWidgets.QTableWidgetItem(devuelto))
-                    var.ui.tablaPrestamos.setItem(index, 5, QtWidgets.QTableWidgetItem(fedevolucion))
+                    var.ui.tablaPrestamos.setItem(index, 5, QtWidgets.QTableWidgetItem(fdevolucion))
                     index +=1
             else:
                 #var.ui.tbEstado.setText("BASE DE DATOS NO COMPATIBLE")

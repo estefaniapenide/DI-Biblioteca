@@ -15,6 +15,9 @@ class Ui_DialogAviso(object):
     def setupUi(self, DialogAviso):
         DialogAviso.setObjectName("DialogAviso")
         DialogAviso.resize(400, 300)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/warning/img/warning.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        DialogAviso.setWindowIcon(icon)
 
         self.retranslateUi(DialogAviso)
         QtCore.QMetaObject.connectSlotsByName(DialogAviso)
@@ -22,3 +25,4 @@ class Ui_DialogAviso(object):
     def retranslateUi(self, DialogAviso):
         _translate = QtCore.QCoreApplication.translate
         DialogAviso.setWindowTitle(_translate("DialogAviso", "AVISO"))
+import recursos_rc

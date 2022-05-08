@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>CALENDARIO FECHA DEVOLUCIÓN</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="recursos.qrc">
+    <normaloff>:/calendario/img/calendar-icon.png</normaloff>:/calendario/img/calendar-icon.png</iconset>
+  </property>
   <widget class="QCalendarWidget" name="calendarioDevolucion">
    <property name="geometry">
     <rect>
@@ -24,6 +28,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="recursos.qrc"/>
+ </resources>
  <connections/>
 </ui>

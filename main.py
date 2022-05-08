@@ -22,6 +22,16 @@ class Main(QtWidgets.QMainWindow):
         var.ui = Ui_MainWindow()
         var.ui.setupUi(self)
 
+        #****************************ACCIONES DE LA TOOLBAR***********************************
+        var.ui.actionactualizar.triggered.connect(libros.Libros.limpiarLibro)
+        var.ui.actionactualizar.triggered.connect(conexion.Libros.mostrarLibros)
+        var.ui.actionactualizar.triggered.connect(prestamos.Prestamos.limpiarPrestamos)
+        var.ui.actionactualizar.triggered.connect(conexion.Prestamos.mostrarPrestamos)
+        var.ui.actionactualizar.triggered.connect(socios.Socios.limpiarSocio)
+        var.ui.actionactualizar.triggered.connect(conexion.Socios.mostrarSocios)
+
+        var.ui.actionSalir.triggered.connect(eventos.Salir.salir)
+
 
         #************************************+CONEXIÓN BD***********************************************
         var.filedb = 'biblioteca.db'
@@ -165,4 +175,5 @@ if __name__ == '__main__':
     var.uiCalendarioSancion = CalendarioSancion()
     var.uiAviso = Aviso()
     window.show()
+    #window.showMaximized()
     sys.exit(app.exec())

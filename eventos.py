@@ -1,6 +1,8 @@
+import sys
+
 from PyQt5.QtWidgets import QVBoxLayout, QLabel, QDialogButtonBox
 
-import libros
+
 import var
 
 class Calendario:
@@ -26,7 +28,7 @@ class Calendario:
     def cargarFechaDesde(qDate):
         try:
             data=('{0}/{1}/{2}'.format(qDate.day(),qDate.month(),qDate.year()))
-            var.ui.lineEditFechaDesde.setText(str(data))
+            var.ui.textBrowserFechaDesde.setText(str(data))
             var.uiCalendarioPrestamo.hide()
         except Exception as error:
             print('Error cargar fecha prestamo: %' % str(error))
@@ -41,7 +43,7 @@ class Calendario:
     def cargarFechaDevolucion(qDate):
         try:
             data=('{0}/{1}/{2}'.format(qDate.day(),qDate.month(),qDate.year()))
-            var.ui.lineEditFechaDevolucion.setText(str(data))
+            var.ui.textBrowserFechaDevolucion.setText(str(data))
             var.uiCalendarioDevolucion.hide()
         except Exception as error:
             print('Error cargar fecha devolución: %' % str(error))
@@ -76,4 +78,9 @@ class Aviso:
         var.uiAviso.layout.addWidget(var.mensajeAviso)'''
 
 
-
+class Salir:
+    def salir(self):
+        try:
+            sys.exit()
+        except Exception as error:
+            print("Error salir : %s " % str(error))

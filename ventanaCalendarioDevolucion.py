@@ -15,6 +15,9 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(400, 300)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/calendario/img/calendar-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Dialog.setWindowIcon(icon)
         self.calendarioDevolucion = QtWidgets.QCalendarWidget(Dialog)
         self.calendarioDevolucion.setGeometry(QtCore.QRect(0, 0, 401, 291))
         self.calendarioDevolucion.setObjectName("calendarioDevolucion")
@@ -25,3 +28,4 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "CALENDARIO FECHA DEVOLUCIÓN"))
+import recursos_rc

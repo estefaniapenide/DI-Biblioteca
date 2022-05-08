@@ -43,7 +43,7 @@ class Prestamos:
 
 
     def modificarPrestamo(self):
-        devolucion=[str(var.ui.datoCodigoLibroDevolucion.text()),str(var.ui.lineEditFechaDevolucion.text())]
+        devolucion=[str(var.ui.datoCodigoLibroDevolucion.text()),str(var.ui.textBrowserFechaDevolucion.toPlainText())]
         if devolucion[0] !='' and devolucion[1]!='':
             if conexion.Libros.existeLibro(devolucion[0]):
                 if not conexion.Libros.libroDisponible(devolucion[0]):
@@ -79,9 +79,9 @@ class Prestamos:
 
 
     def guardarPrestamo(self):
-        if str(var.ui.datoNumeroSocioPrestamo.text())!='' and str(var.ui.datoCodigoLibroPrestamo.text())!='' and str(var.ui.lineEditFechaDesde.text())!='':
-            var.ui.lineEditFechaDevolucion.setText('')
-            prestamo = [var.ui.datoNumeroSocioPrestamo.text(), var.ui.datoCodigoLibroPrestamo.text(), var.ui.lineEditFechaDesde.text(), var.ui.textBrowserFechaHasta.toPlainText(), 'False',var.ui.lineEditFechaDevolucion.text()]
+        if str(var.ui.datoNumeroSocioPrestamo.text())!='' and str(var.ui.datoCodigoLibroPrestamo.text())!='' and str(var.ui.textBrowserFechaDesde.toPlainText())!='':
+            var.ui.textBrowserFechaDevolucion.setText('')
+            prestamo = [var.ui.datoNumeroSocioPrestamo.text(), var.ui.datoCodigoLibroPrestamo.text(), var.ui.textBrowserFechaDesde.toPlainText(), var.ui.textBrowserFechaHasta.toPlainText(), 'False',var.ui.textBrowserFechaDevolucion.toPlainText()]
             if conexion.Libros.libroDisponible(prestamo[1]):
                 if conexion.Socios.socioAptoPrestamo(prestamo[0]):
                     conexion.Prestamos.guardarPrestamo(prestamo)
@@ -111,10 +111,10 @@ class Prestamos:
 
         var.ui.datoNumeroSocioPrestamo.setText("")
         var.ui.datoCodigoLibroPrestamo.setText("")
-        var.ui.lineEditFechaDesde.setText("")
+        var.ui.textBrowserFechaDesde.setText("")
         var.ui.textBrowserFechaHasta.setText("")
         var.ui.datoCodigoLibroDevolucion.setText("")
-        var.ui.lineEditFechaDevolucion.setText("")
+        var.ui.textBrowserFechaDevolucion.setText("")
 
 
 
