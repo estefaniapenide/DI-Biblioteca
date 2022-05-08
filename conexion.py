@@ -1,4 +1,6 @@
 from PyQt5 import QtWidgets, QtSql
+
+import eventos
 import var
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -45,7 +47,7 @@ class Libros:
     def modificarDisponibilidadLibro(codigoLibro, devuelto):
         print('comprobar que esto funciona bien')
         if devuelto == 'False':
-            estadoLibro='PRESTADO'
+            estadoLibro='NO DISPONIBLE/PRESTADO'
         elif devuelto == 'True':
             estadoLibro='DISPONIBLE'
 
@@ -368,6 +370,16 @@ class Socios:
             #var.ui.tbEstado.setText("CLIENTE DNI '" + cliente[0] + "' YA EXISTE EN LA BD")
             print('Error guardar socio: ', query.lastError().text())
 
+    def bajaSocio(numSocio):
+        query = QtSql.QSqlQuery()
+        query.prepare('delete from socios where numSocio = :numSocio')
+        query.bindValue(':numSocio', numSocio)
+        if query.exec_():
+            print('Socio eliminado')
+        else:
+            print('Error baja socio: ', query.lastError().text())
+
+
     def mostrarSocios(self):
         index = 0
         query =QtSql.QSqlQuery()
@@ -432,7 +444,7 @@ class Socios:
             query.prepare('select numSocio from socios')
             if query.exec_():
                 while query.next():
-                    socio = query.value(0)
+                    socio = str(query.value(0))
                     if (socio == numSocio):
                         salida = True
             return salida

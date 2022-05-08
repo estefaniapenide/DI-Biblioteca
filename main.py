@@ -37,9 +37,10 @@ class Main(QtWidgets.QMainWindow):
         #Seleccionar fechas préstamo y devolución
         var.ui.pushButtonCalendario.clicked.connect(eventos.Calendario.abrirCalendarioPrestamo)
         var.ui.pushButtonCalendarioDevolucion.clicked.connect(eventos.Calendario.abrirCalendarioDevolucion)
-        # Botones guardar, elimninar, modificar, limpiar
+        # Botones guardar, modificar, limpiar
         var.ui.pushButtonGuardarPrestamo.clicked.connect(prestamos.Prestamos.guardarPrestamo)
         var.ui.pushButtonGuardarDevolucion.clicked.connect(prestamos.Prestamos.modificarPrestamo)
+        var.ui.pushButtonLimpiarPrestamos.clicked.connect(prestamos.Prestamos.limpiarPrestamos)
         #****************************************************************************************************
 
 
@@ -79,6 +80,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.buttonGroupMulta.buttonToggled.connect(socios.Socios.seleccionarMulta)
         var.ui.buttonGroupMulta.buttonToggled.connect(socios.Socios.visibilidadFechaSancion)
         #Seleccionar sexo
+        var.sexoSocio = 'Mujer'#Sexo predeterminado
         var.ui.buttonGroupSexo.buttonClicked.connect(socios.Socios.seleccionarSexo)
         #Seleccionar numero libros prestados
         var.numLibrosSocio=0 #Valor por defecto
@@ -87,6 +89,9 @@ class Main(QtWidgets.QMainWindow):
         var.ui.lineEditDni.editingFinished.connect(socios.Socios.validarDNI)
         # Botones guardar, elimninar, modificar, limpiar
         var.ui.pushButtonGuardarSocio.clicked.connect(socios.Socios.guardarSocio)
+        var.ui.pushButtonLimpiarSocios.clicked.connect(socios.Socios.limpiarSocio)
+        var.ui.pushButtonLimpiarSocios.clicked.connect(conexion.Socios.mostrarSocios)
+        var.ui.pushButtonEliminarSocio.clicked.connect(socios.Socios.eliminarSocio)
         # Búsquedas
         var.ui.pushButtonBuscarDni.clicked.connect(socios.Socios.buscarSocioDni)
         var.ui.pushButtonBuscarNumSocio.clicked.connect(socios.Socios.buscarSocioNum)#NO funciona!! Ver qué pasa

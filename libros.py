@@ -23,7 +23,7 @@ class Libros:
     def seleccionarEstado(self):
         try:
             index = var.ui.spinBoxEstado.value()
-            estado = ['DISPONIBLE', 'PRESTADO']
+            estado = ['DISPONIBLE', 'NO DISPONIBLE/PRESTADO']
             var.estadoLibro = estado[index]
             var.ui.indicadorEstado.setText(var.estadoLibro)
             var.ui.indicadorEstado.setText(var.estadoLibro)
@@ -58,11 +58,20 @@ class Libros:
 
     def guardarLibro(self):
         try:
+            var.etiquetas = []
             libro = [var.estadoLibro, var.ui.lineEditTitulo.text(), var.ui.lineEditAutor.text(), var.generoLibro, var.etiquetas]
 
-            conexion.Libros.guardarLibro(libro)
-            Libros.buscarLibroCodigo(self)
-            conexion.Libros.mostrarLibros(self)
+            if var.ui.lineEditTitulo.text()!='':
+                conexion.Libros.guardarLibro(libro)
+                eventos.Aviso.mensajeVentanaAviso('LIBRO AÑADIDO')
+                eventos.Aviso.abrirVentanaAviso(self)
+                #Libros.buscarLibroCodigo(self)
+                conexion.Libros.mostrarLibros(self)
+                print('LIBRO AÑADIDO')
+            else:
+                print('PARA AÑADIR UN LIBRO DEBE INTRODUCIR AL MENOS EL TÍTULO')
+                eventos.Aviso.mensajeVentanaAviso('PARA AÑADIR UN LIBRO DEBE INTRODUCIR AL MENOS EL TÍTULO')
+                eventos.Aviso.abrirVentanaAviso(self)
 
         except Exception as error:
             #var.ui.tbEstado.setText("DEBE CUBRIR LOS CAMPOS OBLIGATORIOS")
@@ -73,6 +82,8 @@ class Libros:
             codigo = var.ui.lineEditCodigo.text()
             if (conexion.Libros.existeLibro(codigo)):
                 conexion.Libros.bajaLibro(codigo)
+                eventos.Aviso.mensajeVentanaAviso("LIBRO ELIMINADO")
+                eventos.Aviso.abrirVentanaAviso(self)
                 conexion.Libros.mostrarLibros(self)
                 Libros.limpiarLibro(self)
                 #var.ui.tbEstado.setText("CLIENTE DNI '" + dni + "' HA SIDO DADO DE BAJA")
@@ -80,9 +91,13 @@ class Libros:
                 print('NO EXISTE EL CLIENTE')
                 if var.ui.lineEditCodigo.text()=='':
                     print("NO HA INTRODUCIDO NINGÚN CÓDIGO")
+                    eventos.Aviso.mensajeVentanaAviso("NO HA INTRODUCIDO NINGÚN CÓDIGO DE LIBRO\nEN LA BARRA DE BÚSQUEDA")
+                    eventos.Aviso.abrirVentanaAviso(self)
                     #var.ui.tbEstado.setText("NO HA INTRODUCIDO NINGÚN CÓDIGO")
                 else:
                     print("LIBRO CON CÓDIGO '" + codigo + "' NO EXISTE EN LA BD")
+                    eventos.Aviso.mensajeVentanaAviso("LIBRO CON CÓDIGO '" + codigo + "' NO EXISTE EN LA BIBLIOTECA")
+                    eventos.Aviso.abrirVentanaAviso(self)
                     #var.ui.tbEstado.setText("LIBRO CON CÓDIGO '" + codigo + "' NO EXISTE EN LA BD")
         except Exception as error:
             print('Error eliminar libro: %s' % str(error))
@@ -90,16 +105,23 @@ class Libros:
 
     def modificarLibro(self):
         try:
+            var.etiquetas=[]
             libro = [var.ui.lineEditCodigo.text(), var.estadoLibro, var.ui.lineEditTitulo.text(), var.ui.lineEditAutor.text(), var.generoLibro, var.etiquetas]
             if (conexion.Libros.existeLibro(libro[0])):
                 conexion.Libros.modificarLibro(libro)
+                eventos.Aviso.mensajeVentanaAviso('LIBRO MODIFICADO')
+                eventos.Aviso.abrirVentanaAviso(self)
                 conexion.Libros.mostrarLibros(self)
             else:
-                print('NO EXISTE EL CLIENTE')
-                if var.ui.leDNI.text() == '':
+                print('NO EXISTE EL LIBRO')
+                if var.ui.lineEditCodigo.text() == '':
                     print("NO HA INTRODUCIDO NINGÚN CÓDIGO")
+                    eventos.Aviso.mensajeVentanaAviso("NO HA INTRODUCIDO NINGÚN CÓDIGO DE LIBRO\nEN LA BARRA DE BÚSQUEDA")
+                    eventos.Aviso.abrirVentanaAviso(self)
                     #var.ui.tbEstado.setText("NO HA INTRODUCIDO NINGÚN CÓDIGO")
                 else:
+                    eventos.Aviso.mensajeVentanaAviso("LIBRO CON CÓDIGO '" + libro[0].text()+ "' NO EXISTE EN LA BIBLIOTECA")
+                    eventos.Aviso.abrirVentanaAviso(self)
                     print("LIBRO CON CÓDIGO '" + libro[0].text()+ "' NO EXISTE EN LA BD")
                     #var.ui.tbEstado.setText("LIBRO CON CÓDIGO '" + libro[0].text()+ "' NO EXISTE EN LA BD")
         except Exception as error:
@@ -138,7 +160,7 @@ class Libros:
 
             if (var.estado == 'DISPONIBLE'):
                 var.ui.spinBoxEstado.setValue(0)
-            elif (var.estado == 'PRESTADO'):
+            elif (var.estado == 'NO DISPONIBLE/PRESTADO'):
                 var.ui.spinBoxEstado.setValue(1)
 
             if (var.genero == ""):
@@ -173,6 +195,9 @@ class Libros:
             conexion.Libros.mostrarLibros(self)
             eventos.Aviso.mensajeVentanaAviso('NO EXISTE EL LIBRO EN LA DB ')
             eventos.Aviso.abrirVentanaAviso(self)
+            print('NO EXISTE EL LIBRO EN LA DB ')
+            #eventos.Aviso.mensajeVentanaAviso('NO EXISTE EL LIBRO EN LA DB ')
+            #eventos.Aviso.abrirVentanaAviso(self)
 
     def buscarLibroTitulo(self):
         titulo = var.ui.lineEditTitulo.text()
@@ -251,7 +276,7 @@ class Libros:
 
             if (var.estado == 'DISPONIBLE'):
                 var.ui.spinBoxEstado.setValue(0)
-            elif (var.estado == 'PRESTADO'):
+            elif (var.estado == 'NO DISPONIBLE/PRESTADO'):
                 var.ui.spinBoxEstado.setValue(1)
         else:
             eventos.Aviso.mensajeVentanaAviso('NO HAY LIBROS ' + var.estadoLibro + 'S ')
@@ -260,6 +285,6 @@ class Libros:
             Libros.limpiarLibro(self)
             if (var.estadoLibro == 'DISPONIBLE'):
                 var.ui.spinBoxEstado.setValue(0)
-            elif (var.estadoLibro == 'PRESTADO'):
+            elif (var.estadoLibro == 'NO DISPONIBLE/PRESTADO'):
                 var.ui.spinBoxEstado.setValue(1)
             conexion.Libros.mostrarLibros(self)

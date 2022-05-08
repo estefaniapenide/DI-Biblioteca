@@ -45,25 +45,31 @@ class Prestamos:
     def modificarPrestamo(self):
         devolucion=[str(var.ui.datoCodigoLibroDevolucion.text()),str(var.ui.lineEditFechaDevolucion.text())]
         if devolucion[0] !='' and devolucion[1]!='':
-            if not conexion.Libros.libroDisponible(devolucion[0]):
-                #pestamo=[numSocio,codLibro,desde,hasta,devuelto,fdevolucion]
-                prestamo = conexion.Prestamos.obtenerPrestamoDevolucion(devolucion[0])
-                conexion.Prestamos.modificarPrestamo(devolucion[0],devolucion[1])
-                prestamo[4] = 'True'
-                prestamo[5]=devolucion[1]
-                print(prestamo)
-                Prestamos.gestionMultas(prestamo)
-                conexion.Socios.modificarNumeroLibrosSocio(prestamo[0], prestamo[4])
-                conexion.Libros.modificarDisponibilidadLibro(prestamo[1],prestamo[4])
-                conexion.Prestamos.mostrarPrestamos(self)
-                conexion.Libros.mostrarLibros(self)
-                conexion.Socios.mostrarSocios(self)
+            if conexion.Libros.existeLibro(devolucion[0]):
+                if not conexion.Libros.libroDisponible(devolucion[0]):
+                    #pestamo=[numSocio,codLibro,desde,hasta,devuelto,fdevolucion]
+                    prestamo = conexion.Prestamos.obtenerPrestamoDevolucion(devolucion[0])
+                    conexion.Prestamos.modificarPrestamo(devolucion[0],devolucion[1])
+                    prestamo[4] = 'True'
+                    prestamo[5]=devolucion[1]
+                    print(prestamo)
+                    Prestamos.gestionMultas(prestamo)
+                    conexion.Socios.modificarNumeroLibrosSocio(prestamo[0], prestamo[4])
+                    conexion.Libros.modificarDisponibilidadLibro(prestamo[1],prestamo[4])
+                    #conexion.Socios.actualizarSocios(self)
+                    conexion.Prestamos.mostrarPrestamos(self)
+                    conexion.Libros.mostrarLibros(self)
+                    conexion.Socios.mostrarSocios(self)
+                else:
+                    print('EL LIBRO NO ESTÁ PRESTADO')
+                    eventos.Aviso.mensajeVentanaAviso('EL LIBRO NO ESTÁ PRESTADO')
+                    eventos.Aviso.abrirVentanaAviso(self)
             else:
-                print('EL LIBRO NO ESTÁ PRESTADO')
-                eventos.Aviso.mensajeVentanaAviso('EL LIBRO NO ESTÁ PRESTADO')
+                print('EL LIBRO NO EXISTE')
+                eventos.Aviso.mensajeVentanaAviso('EL LIBRO NO EXISTE')
                 eventos.Aviso.abrirVentanaAviso(self)
         else:
-            print('DEBE INTRODUCIR:\n-CÓSDIGO DEL LIBRO\n-\FECHA DE DEVOLUCIÓN')
+            print('DEBE INTRODUCIR:\n-CÓDIGO DEL LIBRO\n-FECHA DE DEVOLUCIÓN')
             eventos.Aviso.mensajeVentanaAviso('DEBE INTRODUCIR:\n-CÓDIGO DEL LIBRO\n-FECHA DE DEVOLUCIÓN')
             eventos.Aviso.abrirVentanaAviso(self)
 
@@ -74,13 +80,13 @@ class Prestamos:
         if str(var.ui.datoNumeroSocioPrestamo.text())!='' and str(var.ui.datoCodigoLibroPrestamo.text())!='' and str(var.ui.lineEditFechaDesde.text())!='':
             var.ui.lineEditFechaDevolucion.setText('')
             prestamo = [var.ui.datoNumeroSocioPrestamo.text(), var.ui.datoCodigoLibroPrestamo.text(), var.ui.lineEditFechaDesde.text(), var.ui.textBrowserFechaHasta.toPlainText(), 'False',var.ui.lineEditFechaDevolucion.text()]
-
             if conexion.Libros.libroDisponible(prestamo[1]):
                 if conexion.Socios.socioAptoPrestamo(prestamo[0]):
                     conexion.Prestamos.guardarPrestamo(prestamo)
                     Prestamos.gestionMultas(prestamo)
                     conexion.Socios.modificarNumeroLibrosSocio(prestamo[0],prestamo[4])
                     conexion.Libros.modificarDisponibilidadLibro(prestamo[1],prestamo[4])
+                    #conexion.Socios.actualizarSocios(self)
                     conexion.Prestamos.mostrarPrestamos(self)
                     conexion.Libros.mostrarLibros(self)
                     conexion.Socios.mostrarSocios(self)
@@ -96,5 +102,15 @@ class Prestamos:
             print('DEBE INTRODUCIR:\n-NÚMERO DE SOCIO\n-CÓDIGO DEL LIBRO\n-FECHA DE PRÉSTAMO')
             eventos.Aviso.mensajeVentanaAviso('DEBE INTRODUCIR:\n- NÚMERO DE SOCIO\n- CÓDIGO DEL LIBRO\n- FECHA DE PRÉSTAMO')
             eventos.Aviso.abrirVentanaAviso(self)
+
+    def limpiarPrestamos(self):
+
+        var.ui.datoNumeroSocioPrestamo.setText("")
+        var.ui.datoCodigoLibroPrestamo.setText("")
+        var.ui.lineEditFechaDesde.setText("")
+        var.ui.textBrowserFechaHasta.setText("")
+        var.ui.datoCodigoLibroDevolucion.setText("")
+        var.ui.lineEditFechaDevolucion.setText("")
+
 
 

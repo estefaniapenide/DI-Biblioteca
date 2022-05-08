@@ -1,3 +1,4 @@
+import eventos
 import var
 from dni import Dni
 from PyQt5.QtGui import QFont
@@ -93,12 +94,42 @@ class Socios:
                 socio = [var.ui.lineEditDni.text(), var.ui.lineEditNombre.text(), var.ui.lineEditApellidos.text(), var.ui.lineEditDireccion.text(), var.sexoSocio, str(var.multaSocio),var.ui.lineEditSancionHasta.text(),str(var.numLibrosSocio)]
 
                 conexion.Socios.guardarSocio(socio)
+                eventos.Aviso.mensajeVentanaAviso("SOCIO AÑADIDO")
+                eventos.Aviso.abrirVentanaAviso(self)
                 Socios.buscarSocioDni(self)
                 conexion.Socios.mostrarSocios(self)
 
             except Exception as error:
                 #var.ui.tbEstado.setText("DEBE CUBRIR LOS CAMPOS OBLIGATORIOS")
                 print('Error guardar socio (socios): %s ' % str(error))
+        else:
+            eventos.Aviso.mensajeVentanaAviso("EL DNI INTRODUCIDO NO ES VÁLIDO")
+            eventos.Aviso.abrirVentanaAviso(self)
+
+    def eliminarSocio(self):
+        try:
+            numSocio = var.ui.lineEditNumeroSocio.text()
+            if (conexion.Socios.existeSocioNumero(numSocio)):
+                conexion.Socios.bajaSocio(numSocio)
+                eventos.Aviso.mensajeVentanaAviso("SOCIO ELIMINADO")
+                eventos.Aviso.abrirVentanaAviso(self)
+                conexion.Socios.mostrarSocios(self)
+                Socios.limpiarSocio(self)
+                #var.ui.tbEstado.setText("CLIENTE DNI '" + dni + "' HA SIDO DADO DE BAJA")
+            else:
+                print('NO EXISTE EL SOCIO')
+                if var.ui.lineEditNumeroSocio.text()=='':
+                    print("NO HA INTRODUCIDO NINGÚN NÚMERO DE SOCIO")
+                    eventos.Aviso.mensajeVentanaAviso("NO HA INTRODUCIDO NINGÚN NÚMERO DE SOCIO\nEN LA BARRA DE BÚSQUEDA")
+                    eventos.Aviso.abrirVentanaAviso(self)
+                    #var.ui.tbEstado.setText("NO HA INTRODUCIDO NINGÚN CÓDIGO")
+                else:
+                    print("SOCIO CON NÚMERO '" + numSocio + "' NO EXISTE EN LA BD")
+                    eventos.Aviso.mensajeVentanaAviso("SOCIO CON NÚMERO '" + numSocio + "' NO EXISTE EN LA BIBLIOTECA")
+                    eventos.Aviso.abrirVentanaAviso(self)
+                    #var.ui.tbEstado.setText("LIBRO CON CÓDIGO '" + codigo + "' NO EXISTE EN LA BD")
+        except Exception as error:
+            print('Error eliminar socio: %s' % str(error))
 
     def buscarSocioNum(self):
         id = var.ui.lineEditNumeroSocio.text()
@@ -126,6 +157,8 @@ class Socios:
             Socios.limpiarSocio(self)
             var.ui.lineEditNumeroSocio.setText(id)
             conexion.Socios.mostrarSocios(self)
+            eventos.Aviso.mensajeVentanaAviso("NO EXISTE EL SOCIO")
+            eventos.Aviso.abrirVentanaAviso(self)
             # var.ui.tbEstado.setText('CLIENTE DNI %s NO ENCONTRADO' % id)
             # var.ui.lineEditCodigo.setText(id)
 
