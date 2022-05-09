@@ -17,6 +17,9 @@
    <iconset resource="recursos.qrc">
     <normaloff>:/warning/img/warning.png</normaloff>:/warning/img/warning.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:#495371;color:white</string>
+  </property>
  </widget>
  <resources>
   <include location="recursos.qrc"/>

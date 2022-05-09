@@ -18,6 +18,7 @@ class Ui_DialogAviso(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/warning/img/warning.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         DialogAviso.setWindowIcon(icon)
+        DialogAviso.setStyleSheet("background-color:#495371;color:white")
 
         self.retranslateUi(DialogAviso)
         QtCore.QMetaObject.connectSlotsByName(DialogAviso)
