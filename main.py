@@ -6,6 +6,7 @@ import var
 import conexion
 import prestamos
 import socios
+import imprimir
 from ventanaBiblioteca import *
 import ventanaCalendarioPrestamo
 import ventanaCalendarioDevolucion
@@ -31,6 +32,11 @@ class Main(QtWidgets.QMainWindow):
         var.ui.actionactualizar.triggered.connect(conexion.Socios.mostrarSocios)
 
         var.ui.actionSalir.triggered.connect(eventos.Salir.salir)
+        var.ui.actionImprimir_lista_pr_stamos_PDF.triggered.connect(imprimir.Imprimir.informePrestamos)
+        var.ui.actionImprimir_lista_Libros_PDF.triggered.connect(imprimir.Imprimir.informeLibros)
+        var.ui.actionImprimir_lista_socios_PDF.triggered.connect(imprimir.Imprimir.informeSocios)
+        var.ui.actioncomprimir.triggered.connect(eventos.Comprimir.BackupBaseDatos)
+        var.ui.actionAbrir.triggered.connect(eventos.Abrir.abrirExplorador)
 
 
         #************************************+CONEXIÓN BD***********************************************
@@ -165,6 +171,10 @@ class Aviso(QtWidgets.QMessageBox):
         var.uiAviso.setupUi(self)
         self.setWindowTitle("AVISO")
 
+class DialogoAbrir(QtWidgets.QFileDialog):
+    def __init__(self):
+        super(DialogoAbrir,self).__init__()
+        self.setWindowTitle('Abrir')
 
 
 if __name__ == '__main__':
@@ -174,6 +184,6 @@ if __name__ == '__main__':
     var.uiCalendarioDevolucion = CalendarioDevolucion()
     var.uiCalendarioSancion = CalendarioSancion()
     var.uiAviso = Aviso()
+    var.uiAbrir = DialogoAbrir()
     window.show()
-    #window.showMaximized()
     sys.exit(app.exec())

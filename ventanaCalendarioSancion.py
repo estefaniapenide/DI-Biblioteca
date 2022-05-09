@@ -20,6 +20,7 @@ class Ui_Dialog(object):
         Dialog.setWindowIcon(icon)
         self.calendarioSancion = QtWidgets.QCalendarWidget(Dialog)
         self.calendarioSancion.setGeometry(QtCore.QRect(0, 10, 392, 281))
+        self.calendarioSancion.setStyleSheet("background-color:rgb(135, 154, 209)")
         self.calendarioSancion.setObjectName("calendarioSancion")
 
         self.retranslateUi(Dialog)

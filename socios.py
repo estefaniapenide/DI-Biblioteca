@@ -100,7 +100,6 @@ class Socios:
                 conexion.Socios.mostrarSocios(self)
 
             except Exception as error:
-                #var.ui.tbEstado.setText("DEBE CUBRIR LOS CAMPOS OBLIGATORIOS")
                 print('Error guardar socio (socios): %s ' % str(error))
         else:
             eventos.Aviso.mensajeVentanaAviso("EL DNI INTRODUCIDO NO ES VÁLIDO")

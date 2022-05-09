@@ -1,4 +1,10 @@
 import sys
+from datetime import datetime
+from PyQt5 import QtCore, QtGui, QtWidgets
+import zipfile
+import shutil
+import os.path
+import var
 
 from PyQt5.QtWidgets import QVBoxLayout, QLabel, QDialogButtonBox
 
@@ -51,7 +57,7 @@ class Calendario:
     def cargarFechaSancion(qDate):
         try:
             data = ('{0}/{1}/{2}'.format(qDate.day(), qDate.month(), qDate.year()))
-            var.ui.lineEditSancionHasta.setText(str(data))
+            var.ui.textBrowserSancionHasta.setText(str(data))
             var.uiCalendarioSancion.hide()
         except Exception as error:
             print('Error cargar fecha sancion: %' % str(error))
@@ -84,3 +90,31 @@ class Salir:
             sys.exit()
         except Exception as error:
             print("Error salir : %s " % str(error))
+
+class Comprimir:
+
+    def BackupBaseDatos(self):
+        try:
+            fecha = datetime.today()
+            fecha = fecha.strftime('%Y.%m.%d.%H.%M.%S')
+            var.copia = (str(fecha) + 'BibliotecaDB.zip')
+            option = QtWidgets.QFileDialog.Options()
+            directorio, filename = var.uiAbrir.getSaveFileName(None, 'Guardar Copia', var.copia, '.zip',
+                                                                    options=option)
+            if var.uiAbrir.Accepted and filename != '':
+                ficheroZip = zipfile.ZipFile(var.copia, 'w')
+                ficheroZip.write(var.filedb, os.path.basename(var.filedb), zipfile.ZIP_DEFLATED)
+                ficheroZip.close()
+                Aviso.mensajeVentanaAviso("BASE DE DATOS BIBLIOTECA COPIADA A ARCHIVO ZIP")
+                Aviso.abrirVentanaAviso(self)
+                shutil.move(str(var.copia), str(directorio))
+        except Exception as error:
+            print('Error al comprimir: %s' % str(error))
+
+class Abrir:
+
+    def abrirExplorador(self):
+        try:
+            var.uiAbrir.show()
+        except Exception as error:
+            print('Error abrir explorador: %s ' % str(error))

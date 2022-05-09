@@ -20,6 +20,7 @@ class Ui_Dialog(object):
         Dialog.setWindowIcon(icon)
         self.calendarioDevolucion = QtWidgets.QCalendarWidget(Dialog)
         self.calendarioDevolucion.setGeometry(QtCore.QRect(0, 0, 401, 291))
+        self.calendarioDevolucion.setStyleSheet("background-color:rgb(135, 154, 209)")
         self.calendarioDevolucion.setObjectName("calendarioDevolucion")
 
         self.retranslateUi(Dialog)

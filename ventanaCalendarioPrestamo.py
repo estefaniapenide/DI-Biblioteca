@@ -20,6 +20,7 @@ class Ui_Dialog(object):
         Dialog.setWindowIcon(icon)
         self.calendarioPrestamo = QtWidgets.QCalendarWidget(Dialog)
         self.calendarioPrestamo.setGeometry(QtCore.QRect(0, 10, 391, 281))
+        self.calendarioPrestamo.setStyleSheet("background-color:rgb(135, 154, 209)")
         self.calendarioPrestamo.setObjectName("calendarioPrestamo")
 
         self.retranslateUi(Dialog)

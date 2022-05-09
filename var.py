@@ -3,6 +3,7 @@ global uiCalendarioPrestamo
 global uiCalendarioDevolucion
 global uiCalendarioSancion
 global uiAviso
+global uiAbrir
 global filedb
 global mensajeAviso
 
@@ -42,3 +43,9 @@ global sexo
 global multa
 global fmulta
 global numLibros
+
+#IMPRIMIR INFORMES
+global rep
+
+#COMPRIMIR DB
+global copia

@@ -393,6 +393,9 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:#FEFBE7</string>
+      </property>
       <column>
        <property name="text">
         <string>Nº Socio</string>
@@ -715,6 +718,9 @@
         <width>981</width>
         <height>271</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:#FEFBE7</string>
       </property>
       <column>
        <property name="text">
@@ -1213,6 +1219,9 @@
         <height>271</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:#FEFBE7</string>
+      </property>
       <column>
        <property name="text">
         <string>Nº Socio</string>
@@ -1611,7 +1620,7 @@
      <x>0</x>
      <y>0</y>
      <width>1027</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">
@@ -1644,6 +1653,9 @@
    </property>
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:#495371</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -1710,6 +1722,9 @@
    <property name="text">
     <string>actualizar</string>
    </property>
+   <property name="toolTip">
+    <string>Actualizar</string>
+   </property>
   </action>
   <action name="actioncomprimir">
    <property name="icon">
@@ -1719,6 +1734,9 @@
    <property name="text">
     <string>comprimir</string>
    </property>
+   <property name="toolTip">
+    <string>Exportar base de datos comprimida</string>
+   </property>
   </action>
  </widget>
  <resources>
@@ -1726,7 +1744,7 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupSexo"/>
   <buttongroup name="buttonGroupMulta"/>
+  <buttongroup name="buttonGroupSexo"/>
  </buttongroups>
 </ui>
