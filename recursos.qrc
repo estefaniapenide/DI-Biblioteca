@@ -12,6 +12,7 @@
     <file>img/imprimir.png</file>
   </qresource>
   <qresource prefix="salir">
+    <file>img/salirt.png</file>
     <file>img/exit.png</file>
   </qresource>
   <qresource prefix="abrir">

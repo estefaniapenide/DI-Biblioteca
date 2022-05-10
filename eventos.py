@@ -91,6 +91,16 @@ class Salir:
         except Exception as error:
             print("Error salir : %s " % str(error))
 
+    def preguntaSalir(self):
+        try:
+            var.uiSalir.show()
+            if var.uiSalir.exec():
+                sys.exit()
+            else:
+                var.uiSalir.hide()
+        except Exception as error:
+            print("Error %s: " % str(error))
+
 class Comprimir:
 
     def BackupBaseDatos(self):

@@ -4,6 +4,7 @@ global uiCalendarioDevolucion
 global uiCalendarioSancion
 global uiAviso
 global uiAbrir
+global uiSalir
 global filedb
 global mensajeAviso
 

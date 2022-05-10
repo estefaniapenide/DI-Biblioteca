@@ -1,3 +1,4 @@
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QVBoxLayout, QLabel, QPushButton, QDialogButtonBox, QMessageBox
 
 import eventos
@@ -7,6 +8,7 @@ import conexion
 import prestamos
 import socios
 import imprimir
+import ventanaSalir
 from ventanaBiblioteca import *
 import ventanaCalendarioPrestamo
 import ventanaCalendarioDevolucion
@@ -31,7 +33,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.actionactualizar.triggered.connect(socios.Socios.limpiarSocio)
         var.ui.actionactualizar.triggered.connect(conexion.Socios.mostrarSocios)
 
-        var.ui.actionSalir.triggered.connect(eventos.Salir.salir)
+        var.ui.actionSalir.triggered.connect(eventos.Salir.preguntaSalir)
         var.ui.actionImprimir_lista_pr_stamos_PDF.triggered.connect(imprimir.Imprimir.informePrestamos)
         var.ui.actionImprimir_lista_Libros_PDF.triggered.connect(imprimir.Imprimir.informeLibros)
         var.ui.actionImprimir_lista_socios_PDF.triggered.connect(imprimir.Imprimir.informeSocios)
@@ -169,12 +171,22 @@ class Aviso(QtWidgets.QMessageBox):
         super(Aviso,self).__init__()
         var.uiAviso = ventanaAviso.Ui_DialogAviso()
         var.uiAviso.setupUi(self)
-        self.setWindowTitle("AVISO")
+
+
+
 
 class DialogoAbrir(QtWidgets.QFileDialog):
     def __init__(self):
         super(DialogoAbrir,self).__init__()
         self.setWindowTitle('Abrir')
+
+class Salir(QtWidgets.QDialog):
+
+    def __init__(self):
+        super(Salir,self).__init__()
+        var.uiSalir = ventanaSalir.Ui_Dialog()
+        var.uiSalir.setupUi(self)
+
 
 
 if __name__ == '__main__':
@@ -185,5 +197,6 @@ if __name__ == '__main__':
     var.uiCalendarioSancion = CalendarioSancion()
     var.uiAviso = Aviso()
     var.uiAbrir = DialogoAbrir()
+    var.uiSalir = Salir()
     window.show()
     sys.exit(app.exec())
