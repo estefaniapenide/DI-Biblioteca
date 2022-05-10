@@ -92,7 +92,7 @@ class Imprimir():
             rootPath=".\\"
             cont =0
             for file in os.listdir(rootPath):
-                if file.endswith('.pdf'):
+                if file.endswith('prestamos.pdf'):
                     os.startfile("%s/%s" % (rootPath, file))
                 cont = cont + 1
         except Exception as error:
@@ -150,7 +150,7 @@ class Imprimir():
             rootPath = ".\\"
             cont = 0
             for file in os.listdir(rootPath):
-                if file.endswith('.pdf'):
+                if file.endswith('libros.pdf'):
                     os.startfile("%s/%s" % (rootPath, file))
                 cont = cont + 1
         except Exception as error:
@@ -207,7 +207,7 @@ class Imprimir():
             rootPath = ".\\"
             cont = 0
             for file in os.listdir(rootPath):
-                if file.endswith('.pdf'):
+                if file.endswith('socios.pdf'):
                     os.startfile("%s/%s" % (rootPath, file))
                 cont = cont + 1
         except Exception as error:
