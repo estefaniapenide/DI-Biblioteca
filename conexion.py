@@ -3,11 +3,13 @@ from PyQt5 import QtWidgets, QtSql
 import eventos
 import var
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
 
+
+#CONEXIÓN Y DESCONEXIÓN CON LA DB
 class Conexion:
 
     def db_connect(filename):
+        '''Conecta con la base de datos'''
 
         db=QtSql.QSqlDatabase.addDatabase('QSQLITE')
         db.setDatabaseName(filename)
@@ -21,15 +23,19 @@ class Conexion:
             return True
 
     def db_desconectar(self):
+        '''Desconecta con la base de datos'''
+
         db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
         if db.open():
             db.close()
 
 
-#CONEXION DE LOS LIBROS
+#CONSULTAS, ISERCIONES, BAJAS Y MODIFICACIONES DE LA TABLA LIBROS
 class Libros:
 
     def libroDisponible(codigoLibro):
+        '''Comprueba si un libro está disponble dado su código de libro'''
+
         try:
             disponible=False
             query = QtSql.QSqlQuery()
@@ -45,7 +51,9 @@ class Libros:
             print('Error disponibilidad libro: %s' % str(error))
 
     def modificarDisponibilidadLibro(codigoLibro, devuelto):
-        print('comprobar que esto funciona bien')
+        '''Si un libro ha sido devuelto cambia su estado a DISPONIBLE
+        y si ha sido prestado cambia su estado a NO DISPONIBLE/PRESTADO'''
+
         if devuelto == 'False':
             estadoLibro='NO DISPONIBLE/PRESTADO'
         elif devuelto == 'True':
@@ -58,11 +66,12 @@ class Libros:
         query.bindValue(':estado', estadoLibro)
         if query.exec_():
             print('LIBRO MODIFICADO')
-            # var.ui.tbEstado.setText('LIBRO CON CODIGO %s HA SIDO MODIFICADO' % codigo)
         else:
             print('Error modificar libro: ', query.lastError().text())
 
     def guardarLibro(libro):
+        '''Añade un libro a la tabla libros'''
+
         query=QtSql.QSqlQuery()
         query.prepare('insert into libros (estado, titulo, autor, genero, etiquetas)'
                       'VALUES (:estado, :titulo, :autor, :genero,:etiquetas)')
@@ -73,14 +82,14 @@ class Libros:
         query.bindValue(':etiquetas', str(libro[4]))
 
         if query.exec_():
-            #var.ui.tbEstado.setText("CLIENTE DNI '" +cliente[0] + "' HA SIDO DADO DE ALTA")
             print('Insercción de libro correcta')
             Libros.mostrarLibros(libro)
         else:
-            #var.ui.tbEstado.setText("CLIENTE DNI '" + cliente[0] + "' YA EXISTE EN LA BD")
             print('Error guardar libro: ', query.lastError().text())
 
     def bajaLibro(codigo):
+        '''Elimina un libro de la tabla libros dado el código del libro'''
+
         query = QtSql.QSqlQuery()
         query.prepare('delete from libros where codigo = :codigo')
         query.bindValue(':codigo', codigo)
@@ -90,6 +99,9 @@ class Libros:
             print('Error baja libro: ', query.lastError().text())
 
     def modificarLibro(modificacion):
+        '''Dado el código del libro, modifica los valores de esa fila
+        en la tabla libro por los valores nuevos indicados'''
+
         codigo = modificacion[0]
         query=QtSql.QSqlQuery()
         query.prepare('update libros set estado=:estado, titulo=:titulo, autor=:autor,genero=:genero, etiquetas=:etiquetas where codigo=:codigo')
@@ -101,12 +113,13 @@ class Libros:
         query.bindValue(':etiquetas', str(modificacion[5]))
         if query.exec_():
             print('LIBRO MODIFICADO')
-            #var.ui.tbEstado.setText('LIBRO CON CODIGO %s HA SIDO MODIFICADO' % codigo)
         else:
             print('Error modificar libro: ',query.lastError().text())
 
 
     def mostrarLibros(self):
+        '''Recoge los valores de la tabla libros y los añade al QTableWiget tablaLibros de la interfaz gráfica'''
+
         index = 0
         query =QtSql.QSqlQuery()
         query.prepare('select codigo, estado, titulo, autor, genero from libros')
@@ -125,7 +138,6 @@ class Libros:
                 var.ui.tablaLibros.setItem(index,4, QtWidgets.QTableWidgetItem(genero))
                 index +=1
         else:
-            #var.ui.tbEstado.setText("BASE DE DATOS NO COMPATIBLE")
             var.ui.tablaLibros.setRowCount(1)  # Crea la fila y a continuación mete los datos
             var.ui.tablaLibros.setItem(index, 0, QtWidgets.QTableWidgetItem(""))
             var.ui.tablaLibros.setItem(index, 1, QtWidgets.QTableWidgetItem(""))
@@ -135,6 +147,8 @@ class Libros:
             print('Error mostrar libros: ',query.lastError().text())
 
     def existeLibro(id):
+        '''Dado un código de libro comprueba si existe en la tabla libros'''
+
         try:
             salida=False
             query = QtSql.QSqlQuery()
@@ -149,6 +163,8 @@ class Libros:
             print('Error existe libro: %s' % str(error))
 
     def existeLibroTitulo(id):
+        '''Dado un título de libro comprueba si existe en la tabla libros'''
+
         try:
             salida=False
             query = QtSql.QSqlQuery()
@@ -163,6 +179,8 @@ class Libros:
             print('Error existe libro titulo: %s' % str(error))
 
     def existeLibroAutor(id):
+        '''Dado un autor de libro comprueba si existe en la tabla libros'''
+
         try:
             salida=False
             query = QtSql.QSqlQuery()
@@ -177,6 +195,8 @@ class Libros:
             print('Error existe libro autor: %s' % str(error))
 
     def existeLibroGenero(id):
+        '''Dado un género de libro comprueba si existe en la tabla libros'''
+
         try:
             salida=False
             query = QtSql.QSqlQuery()
@@ -191,6 +211,8 @@ class Libros:
             print('Error existe libro genero: %s' % str(error))
 
     def existeLibroEstado(id):
+        '''Dado un estado de libro comprueba si existe en la tabla libros'''
+
         try:
             salida=False
             query = QtSql.QSqlQuery()
@@ -205,6 +227,8 @@ class Libros:
             print('Error existe libro genero: %s' % str(error))
 
     def resultadosBusqueda(query):
+        '''Añade los resultados de una consulta de la tabla libros a la QTableWidget tablaLibros de la interfaz gráfica'''
+
         index = 0
         if query.exec_():
             while query.next():
@@ -228,6 +252,8 @@ class Libros:
             print('Error buscar libro: ', query.lastError().text())
 
     def buscarLibroCodigo(id):
+        '''Consulta que devuelve los valores de los campos de la tabla libros, dado el código del libro'''
+
         try:
             query = QtSql.QSqlQuery()
             query.prepare(
@@ -238,6 +264,8 @@ class Libros:
             print('Error buscar libro: %s' % str(error))
 
     def buscarLibroTitulo(titulo):
+        '''Consulta que devuelve los valores de los campos de la tabla libros, dado el título del libro'''
+
         try:
             query = QtSql.QSqlQuery()
             query.prepare(
@@ -248,6 +276,8 @@ class Libros:
             print('Error buscar libro titulo: %s' % str(error))
 
     def buscarLibroAutor(autor):
+        '''Consulta que devuelve los valores de los campos de la tabla libros, dado el autor del libro'''
+
         try:
             query = QtSql.QSqlQuery()
             query.prepare(
@@ -259,6 +289,8 @@ class Libros:
 
 
     def buscarLibroGenero(genero):
+        '''Consulta que devuelve los valores de los campos de la tabla libros, dado el genéro del libro'''
+
         try:
             query = QtSql.QSqlQuery()
             query.prepare(
@@ -269,6 +301,8 @@ class Libros:
             print('Error buscar libro genero: %s' % str(error))
 
     def buscarLibroEstado(estado):
+        '''Consulta que devuelve los valores de los campos de la tabla libros, dado el estado del libro'''
+
         try:
             query = QtSql.QSqlQuery()
             query.prepare(
@@ -279,13 +313,14 @@ class Libros:
             print('Error buscar libro estado: %s' % str(error))
 
 
-#CONEXIÓN DE LOS SOCIOS
+#CONSULTAS, ISERCIONES, BAJAS Y MODIFICACIONES DE LA TABLA SOCIOS
 class Socios:
 
     def actualizarSocios(self):
-        '''Función para actualizar de forma automática cada vez que se abra el programa
-        las sanciones de los socios. Si ya a pasado la fecha de su sanción, esta se eliminará y se
-        le quitará la multa'''
+        '''Actualiza las sanciones de los socios.
+        Si ya a pasado la fecha de su sanción,
+        esta se eliminará y se le quitará la multa'''
+
         sociosSancionExpirada=[]#Lista
         hoy = datetime.now()
         query = QtSql.QSqlQuery()
@@ -312,6 +347,10 @@ class Socios:
 
 
     def modificarNumeroLibrosSocio(numSocio, devuelto):
+        '''Dado el número de socio y estado de un libro en la tabla prestamos,
+        si un libro ha sido devuelto cambia resta 1 al número de libros que ese socio tiene como prestados
+        y si ha sido prestado suma 1 al número de libros que ese socio tiene como prestados'''
+
         numLibros=0
         query1 = QtSql.QSqlQuery()
         query1.prepare('select numLibros from socios where numSocio=:numSocio')
@@ -331,11 +370,13 @@ class Socios:
         query.bindValue(':numLibros', str(numLibros))
         if query.exec_():
             print('SOCIO MODIFICADO')
-            # var.ui.tbEstado.setText('LIBRO CON CODIGO %s HA SIDO MODIFICADO' % codigo)
         else:
             print('Error modificar socio: ', query.lastError().text())
 
     def socioAptoPrestamo(numSocio):
+        '''Dado un número de socio comprueba si este tiene multa o no y el número de libros que tiene prestados,
+        si no tiene multa y el número de libros prestados es inferior a tres, es apto para préstamo'''
+
         try:
             socioApto=False
             query = QtSql.QSqlQuery()
@@ -352,6 +393,8 @@ class Socios:
             print('Error socio apto prestamo: %s' % str(error))
 
     def guardarSocio(socio):
+        '''Añade un socio a la tabla socios'''
+
         query=QtSql.QSqlQuery()
         query.prepare('insert into socios (dni, nombre, apellidos, direccion, sexo, multa, fmulta, numLibros)'
                       'VALUES (:dni, :nombre, :apellidos, :direccion, :sexo, :multa, :fmulta, :numLibros)')
@@ -365,14 +408,19 @@ class Socios:
         query.bindValue(':numLibros', str(socio[7]))
 
         if query.exec_():
-            #var.ui.tbEstado.setText("CLIENTE DNI '" +cliente[0] + "' HA SIDO DADO DE ALTA")
             print('Insercción de socio correcta')
+            eventos.Aviso.mensajeVentanaAviso("SOCIO AÑADIDO")
+            eventos.Aviso.abrirVentanaAviso(socio)
             Socios.mostrarSocios(socio)
         else:
-            #var.ui.tbEstado.setText("CLIENTE DNI '" + cliente[0] + "' YA EXISTE EN LA BD")
+            eventos.Aviso.mensajeVentanaAviso("\tNO ES POSIBLE AÑADIR EL SOCIO\n\nEL DNI '"+socio[0]+"' YA ESTÁ REGISTRADO EN LA BIBLIOTECA")
+            eventos.Aviso.abrirVentanaAviso(socio)
             print('Error guardar socio: ', query.lastError().text())
 
     def modificarSocio(socio):
+        '''Dado el número de socio, modifica los valores de esa fila
+        en la tabla socios por los valores nuevos indicados'''
+
         numSocio = socio[0]
         query = QtSql.QSqlQuery()
         query.prepare(
@@ -388,11 +436,12 @@ class Socios:
         query.bindValue(':numLibros', str(socio[8]))
         if query.exec_():
             print('SOCIO MODIFICADO')
-            # var.ui.tbEstado.setText('LIBRO CON CODIGO %s HA SIDO MODIFICADO' % codigo)
         else:
             print('Error modificar SOCIO: ', query.lastError().text())
 
     def bajaSocio(numSocio):
+        '''Dado un número de socio lo elimina de la tabla socios'''
+
         query = QtSql.QSqlQuery()
         query.prepare('delete from socios where numSocio = :numSocio')
         query.bindValue(':numSocio', numSocio)
@@ -403,6 +452,8 @@ class Socios:
 
 
     def mostrarSocios(self):
+        '''Recoge los valores de la tabla socios y los añade al QTableWiget tablaSocios de la interfaz gráfica'''
+
         index = 0
         query =QtSql.QSqlQuery()
         query.prepare('select numSocio, dni, nombre, apellidos, direccion, sexo, multa, fmulta, numLibros from socios')
@@ -430,7 +481,6 @@ class Socios:
                 var.ui.tablaSocios.setItem(index, 8, QtWidgets.QTableWidgetItem(sexo))
                 index +=1
         else:
-            #var.ui.tbEstado.setText("BASE DE DATOS NO COMPATIBLE")
             var.ui.tablaSocios.setRowCount(1)  # Crea la fila y a continuación mete los datos
             var.ui.tablaSocios.setItem(index, 0, QtWidgets.QTableWidgetItem(""))
             var.ui.tablaSocios.setItem(index, 1, QtWidgets.QTableWidgetItem(""))
@@ -446,6 +496,8 @@ class Socios:
 
 
     def existeSocioDni(id):
+        '''Dado un dni de un socio comprueba si existe en la tabla socios'''
+
         try:
             salida = False
             query = QtSql.QSqlQuery()
@@ -460,6 +512,8 @@ class Socios:
             print('Error existe socio dni: %s' % str(error))
 
     def existeSocioNumero(numSocio):
+        '''Dado un numero de socio de un socio comprueba si existe en la tabla socios'''
+
         try:
             salida = False
             query = QtSql.QSqlQuery()
@@ -475,6 +529,8 @@ class Socios:
 
 
     def buscarSocioDni(dni):
+        '''Consulta que devuelve los valores de los campos de la tabla socios, dado el dni del socio'''
+
         try:
             query = QtSql.QSqlQuery()
             query.prepare(
@@ -486,6 +542,8 @@ class Socios:
 
 
     def buscarSocioNumero(numSocio):
+        '''Consulta que devuelve los valores de los campos de la tabla socios, dado el número de socio'''
+
         try:
             query = QtSql.QSqlQuery()
             query.prepare(
@@ -497,6 +555,8 @@ class Socios:
 
 
     def resultadosBusqueda(query):
+        '''Añade los resultados de una consulta de la tabla socios a la QTableWidget tablaSocios de la interfaz gráfica'''
+
         index = 0
         if query.exec_():
             while query.next():
@@ -526,6 +586,8 @@ class Socios:
 
 
     def gestionMulta(numSocio, multa, fmulta):
+        '''Dado un número de socio, modifica los valores de multa y fecha de multa por los nuevos indicados'''
+
         query = QtSql.QSqlQuery()
         query.prepare(
             'update socios set multa=:multa, fmulta=:fmulta where numSocio=:numSocio')
@@ -534,7 +596,6 @@ class Socios:
         query.bindValue(':fmulta', fmulta)
         if query.exec_():
             print('MULTA SOCIO MODIFICADA')
-            # var.ui.tbEstado.setText('LIBRO CON CODIGO %s HA SIDO MODIFICADO' % codigo)
         else:
             print('Error modificar multa socio: ', query.lastError().text())
 
@@ -545,6 +606,8 @@ class Socios:
 class Prestamos:
 
     def guardarPrestamo(prestamo):
+        '''Añade un préstamo a la tabla prestamos'''
+
         query=QtSql.QSqlQuery()
         query.prepare('insert into prestamos (numSocio, codLibro, desde, hasta, devuelto)'
                       'VALUES (:numSocio, :codLibro, :desde, :hasta, :devuelto)')
@@ -563,6 +626,8 @@ class Prestamos:
             print('Error guardar prestamo: ', query.lastError().text())
 
     def mostrarPrestamos(self):
+        '''Recoge los valores de la tabla prestamos y los añade al QTableWiget tabla prestamos de la interfaz gráfica'''
+
         try:
             index = 0
             query =QtSql.QSqlQuery()
@@ -584,7 +649,6 @@ class Prestamos:
                     var.ui.tablaPrestamos.setItem(index, 5, QtWidgets.QTableWidgetItem(fdevolucion))
                     index +=1
             else:
-                #var.ui.tbEstado.setText("BASE DE DATOS NO COMPATIBLE")
                 var.ui.tablaLibros.setRowCount(1)  # Crea la fila y a continuación mete los datos
                 var.ui.tablaLibros.setItem(index, 0, QtWidgets.QTableWidgetItem(""))
                 var.ui.tablaLibros.setItem(index, 1, QtWidgets.QTableWidgetItem(""))
@@ -598,6 +662,9 @@ class Prestamos:
 
 
     def modificarPrestamo(codLibro, fdevolucion):
+        '''Dado el código del libro y la nueva fecha de devolución, modifica el valor de la fecha de devolución,
+        marcándolo como devueltoesa fila en la tabla prestamos'''
+
         query = QtSql.QSqlQuery()
         query.prepare(
             'update prestamos set devuelto=:devuelto, fdevolucion=:fdevolucion where codLibro=:codLibro and devuelto="False"')
@@ -611,7 +678,9 @@ class Prestamos:
             print('Error devolucion prestamo: ', query.lastError().text())
 
     def obtenerPrestamoDevolucion(codLibro):
-        print(int(codLibro))
+        '''Dado un código de libro, devuelve los valores de la fila de la tabla prestamos
+        donde este figura como no devuelto'''
+
         numSocio=''
         cod=''
         desde=''
@@ -631,7 +700,7 @@ class Prestamos:
                 hasta = query.value(3)
                 devuelto = str(query.value(4))
                 fdevolucion = query.value(5)
-        print(numSocio)
+
         prestamo=[numSocio,codLibro,desde,hasta,devuelto,fdevolucion]
         return prestamo
 

@@ -26,10 +26,8 @@ class Socios:
     def seleccionarMulta(self):
         try:
             if var.ui.radioButtonMultaSi.isChecked():
-                #print('marcado si')
                 var.multaSocio=True
             if var.ui.radioButtonMultaNo.isChecked():
-                #print('marcado no')
                 var.multaSocio=False
         except Exception as error:
             print('Error en módulo seleccionar multa:',error)
@@ -37,10 +35,8 @@ class Socios:
     def seleccionarSexo(self):
         try:
             if var.ui.radioButtonMujer.isChecked():
-                #print('marcado mujer')
                 var.sexoSocio='Mujer'
             if var.ui.radioButtonHombre.isChecked():
-                #print('marcado hombre')
                 var.sexoSocio='Hombre'
         except Exception as error:
             print('Error en módulo seleccionar sexo:',error)
@@ -66,21 +62,18 @@ class Socios:
                 dniCorrecto = Dni(numero)
                 if (dniCorrecto.letra == letra):
                     print("DNI CORRECTO")
-                    #var.ui.tbEstado.setText("DNI CORRECTO")
                     var.ui.labelValidarDni.setStyleSheet('QLabel {color:green;font-size:14pt;font-weight:bold}')
                     var.ui.labelValidarDni.setFont(QFont("Forte"))
                     var.ui.labelValidarDni.setText('V')
                     return True
                 else:
                     print("DNI INCORRECTO")
-                   # var.ui.tbEstado.setText("DNI INCORRECTO")
                     var.ui.labelValidarDni.setStyleSheet('QLabel {color:red;font-size:14pt;font-weight:bold}')
                     var.ui.labelValidarDni.setFont(QFont("Forte"))
                     var.ui.labelValidarDni.setText('X')
                     return False
             else:
                 print("DNI INCORRECTO")
-                #var.ui.tbEstado.setText("DNI INCORRECTO")
                 var.ui.labelValidarDni.setStyleSheet('QLabel {color:red;font-size:14pt;font-weight:bold}')
                 var.ui.labelValidarDni.setFont(QFont("Forte"))
                 var.ui.labelValidarDni.setText('X')
@@ -91,11 +84,9 @@ class Socios:
     def guardarSocio(self):
         if Socios.validarDNI():
             try:
-                socio = [var.ui.lineEditDni.text(), var.ui.lineEditNombre.text(), var.ui.lineEditApellidos.text(), var.ui.lineEditDireccion.text(), var.sexoSocio, str(var.multaSocio),var.ui.textBrowserSancionHasta.toPlainText(),str(var.numLibrosSocio)]
+                socio = [var.ui.lineEditDni.text(), var.ui.lineEditNombre.text().upper(), var.ui.lineEditApellidos.text().upper(), var.ui.lineEditDireccion.text().upper(), var.sexoSocio, str(var.multaSocio),var.ui.textBrowserSancionHasta.toPlainText(),str(var.numLibrosSocio)]
 
                 conexion.Socios.guardarSocio(socio)
-                eventos.Aviso.mensajeVentanaAviso("SOCIO AÑADIDO")
-                eventos.Aviso.abrirVentanaAviso(self)
                 Socios.buscarSocioDni(self)
                 conexion.Socios.mostrarSocios(self)
 
@@ -108,7 +99,7 @@ class Socios:
     def modificarSocio(self):
         if Socios.validarDNI():
             try:
-                socio = [var.ui.labelNumSocioGenerado.text(), var.ui.lineEditDni.text(), var.ui.lineEditNombre.text(), var.ui.lineEditApellidos.text(), var.ui.lineEditDireccion.text(), var.sexoSocio, str(var.multaSocio),var.ui.textBrowserSancionHasta.toPlainText(),str(var.numLibrosSocio)]
+                socio = [var.ui.labelNumSocioGenerado.text(), var.ui.lineEditDni.text(), var.ui.lineEditNombre.text().upper(), var.ui.lineEditApellidos.text().upper(), var.ui.lineEditDireccion.text().upper(), var.sexoSocio, str(var.multaSocio),var.ui.textBrowserSancionHasta.toPlainText(),str(var.numLibrosSocio)]
                 if (conexion.Socios.existeSocioNumero(socio[0])):
                     conexion.Socios.modificarSocio(socio)
                     eventos.Aviso.mensajeVentanaAviso('SOCIO MODIFICADO')
@@ -120,14 +111,11 @@ class Socios:
                         print("NO HA INTRODUCIDO NINGÚN NÚMERO DE SOCIO")
                         eventos.Aviso.mensajeVentanaAviso("NO HA INTRODUCIDO NINGÚN NÚMERO DE SOCIO\nEN LA BARRA DE BÚSQUEDA")
                         eventos.Aviso.abrirVentanaAviso(self)
-                        #var.ui.tbEstado.setText("NO HA INTRODUCIDO NINGÚN CÓDIGO")
                     else:
                         eventos.Aviso.mensajeVentanaAviso("NO EXISTE EL SOCIO '" + socio[0].text()+ "' EN LA BIBLIOTECA")
                         eventos.Aviso.abrirVentanaAviso(self)
                         print("NO EXISTE EL SOCIO " + socio[0].text()+ " EN LA BD")
-                        #var.ui.tbEstado.setText("LIBRO CON CÓDIGO '" + libro[0].text()+ "' NO EXISTE EN LA BD")
             except Exception as error:
-                #var.ui.tbEstado.setText("DEBE CUBRIR LOS CAMPOS OBLIGATORIOS")
                 print('Error modificando socio: %s' % str(error))
         else:
             eventos.Aviso.mensajeVentanaAviso("EL DNI INTRODUCIDO NO ES VÁLIDO")
@@ -142,19 +130,16 @@ class Socios:
                 eventos.Aviso.abrirVentanaAviso(self)
                 conexion.Socios.mostrarSocios(self)
                 Socios.limpiarSocio(self)
-                #var.ui.tbEstado.setText("CLIENTE DNI '" + dni + "' HA SIDO DADO DE BAJA")
             else:
                 print('NO EXISTE EL SOCIO')
                 if var.ui.labelNumSocioGenerado.text()=='':
                     print("NO HA INTRODUCIDO NINGÚN NÚMERO DE SOCIO")
                     eventos.Aviso.mensajeVentanaAviso("NO HA INTRODUCIDO NINGÚN NÚMERO DE SOCIO\nEN LA BARRA DE BÚSQUEDA")
                     eventos.Aviso.abrirVentanaAviso(self)
-                    #var.ui.tbEstado.setText("NO HA INTRODUCIDO NINGÚN CÓDIGO")
                 else:
                     print("SOCIO CON NÚMERO '" + numSocio + "' NO EXISTE EN LA BD")
-                    eventos.Aviso.mensajeVentanaAviso("SOCIO CON NÚMERO '" + numSocio + "' NO EXISTE EN LA BIBLIOTECA")
+                    eventos.Aviso.mensajeVentanaAviso("NO EXISTE EL SOCIO '" + numSocio + "' EN LA BIBLIOTECA")
                     eventos.Aviso.abrirVentanaAviso(self)
-                    #var.ui.tbEstado.setText("LIBRO CON CÓDIGO '" + codigo + "' NO EXISTE EN LA BD")
         except Exception as error:
             print('Error eliminar socio: %s' % str(error))
 
@@ -188,16 +173,12 @@ class Socios:
             var.ui.pushButtonModificarSocio.setHidden(False)
             var.ui.pushButtonEliminarSocio.setHidden(False)
 
-            # var.ui.tbEstado.setText('CLIENTE DNI %s ENCONTRADO' % id)
-
         else:
             Socios.limpiarSocio(self)
             var.ui.lineEditNumeroSocio.setText(id)
             conexion.Socios.mostrarSocios(self)
-            eventos.Aviso.mensajeVentanaAviso("NO EXISTE EL SOCIO")
+            eventos.Aviso.mensajeVentanaAviso("NO EXISTE EL SOCIO '" + id + "' EN LA BIBLIOTECA")
             eventos.Aviso.abrirVentanaAviso(self)
-            # var.ui.tbEstado.setText('CLIENTE DNI %s NO ENCONTRADO' % id)
-            # var.ui.lineEditCodigo.setText(id)
 
     def buscarSocioDni(self):
         if Socios.validarDNI():
@@ -208,7 +189,6 @@ class Socios:
                 Socios.limpiarSocio(self)
 
                 var.ui.lineEditDni.setText(var.dni)
-                #var.ui.lineEditNumeroSocio.setText(str(var.numSocio))
                 var.ui.labelNumSocioGenerado.setText(str(var.numSocio))
                 var.ui.lineEditNombre.setText(var.nombre)
                 var.ui.lineEditApellidos.setText(var.apellidos)
@@ -229,14 +209,11 @@ class Socios:
                 var.ui.pushButtonModificarSocio.setHidden(False)
                 var.ui.pushButtonEliminarSocio.setHidden(False)
 
-                #var.ui.tbEstado.setText('CLIENTE DNI %s ENCONTRADO' % id)
-
             else:
                 Socios.limpiarSocio(self)
                 var.ui.lineEditDni.setText(dni)
                 conexion.Socios.mostrarSocios(self)
-                #var.ui.tbEstado.setText('CLIENTE DNI %s NO ENCONTRADO' % id)
-                #var.ui.lineEditCodigo.setText(id)
+
 
     def limpiarSocio(self):
 

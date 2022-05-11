@@ -1,7 +1,7 @@
 from reportlab.pdfgen import canvas
 import os
 import var
-from PyQt5 import QtWidgets, QtSql
+from PyQt5 import QtSql
 from datetime import datetime
 
 class Imprimir():
@@ -14,7 +14,6 @@ class Imprimir():
             var.rep.setFont('Helvetica-Oblique',size=7)
             var.rep.drawString(460,35,str(fecha))
             var.rep.drawString(275, 35, str('Página %s' % var.rep.getPageNumber()))
-            #var.rep.drawString(45, 35, str(textlistado))
         except Exception as error:
             print('Error pie informe: %s' % str(error))
 
@@ -32,7 +31,6 @@ class Imprimir():
             var.rep.drawString(50,790, textnom)
             var.rep.drawString(50,775, textdir)
             var.rep.drawString(50,760, texttlfo)
-            #var.rep.drawImage(logo,450,752)
             var.rep.setFont('Helvetica-Bold', size=9)
             textlistado = 'LISTADO DE %s' % titulo
             var.rep.drawString(240, 695, textlistado)
@@ -41,39 +39,45 @@ class Imprimir():
 
     def cuerpoPrestamos(self):
         try:
-            itemCli=['NUM SOCIO', 'COD LIBRO', 'DESDE','HASTA']
+            itemCli=['NUM SOCIO', 'COD LIBRO', 'DESDE','HASTA','DEVUELTO','FECHA DEVOLUCIÓN']
             var.rep.setFont('Helvetica-Bold', size=9)
             var.rep.line(45, 680, 525, 680)
-            var.rep.drawString(65,667,itemCli[0])
-            var.rep.drawString(190, 667, itemCli[1])
-            var.rep.drawString(330, 667, itemCli[2])
-            var.rep.drawString(445, 667, itemCli[3])
+            var.rep.drawString(50,667,itemCli[0])
+            var.rep.drawString(120, 667, itemCli[1])
+            var.rep.drawString(210, 667, itemCli[2])
+            var.rep.drawString(280, 667, itemCli[3])
+            var.rep.drawString(350, 667, itemCli[4])
+            var.rep.drawString(430, 667, itemCli[5])
             var.rep.line(45,660,525,660)
             query = QtSql.QSqlQuery()
-            query.prepare('select numSocio, codLibro, desde, hasta from prestamos order by devuelto')
+            query.prepare('select numSocio, codLibro, desde, hasta, devuelto, fdevolucion from prestamos order by devuelto')
             if query.exec_():
-                i=50
+                i=70
                 j=645
                 cont=0
                 while query.next():
                     var.rep.setFont('Helvetica', size=10)
                     var.rep.drawString(i,j, str(query.value(0)))
-                    var.rep.drawString(i+130, j, str(query.value(1)))
-                    var.rep.drawString(i+280, j, str(query.value(2)))
-                    var.rep.drawString(i+400, j, str(query.value(3)))
+                    var.rep.drawString(i+68, j, str(query.value(1)))
+                    var.rep.drawString(i+135, j, str(query.value(2)))
+                    var.rep.drawString(i+203, j, str(query.value(3)))
+                    var.rep.drawString(i +289, j, str(query.value(4)))
+                    var.rep.drawString(i + 380, j, str(query.value(5)))
                     j=j-30
                     cont=cont+1
                     if (cont == 20):
                         Imprimir.pie(self)
                         var.rep.showPage()
-                        i=50
+                        i=70
                         j=745
                         var.rep.setFont('Helvetica-Bold', size=9)
                         var.rep.line(45, 790, 525, 790)
-                        var.rep.drawString(65, 777, itemCli[0])
-                        var.rep.drawString(190, 777, itemCli[1])
-                        var.rep.drawString(330, 777, itemCli[2])
-                        var.rep.drawString(445, 777, itemCli[3])
+                        var.rep.drawString(50, 777, itemCli[0])
+                        var.rep.drawString(120, 777, itemCli[1])
+                        var.rep.drawString(210, 777, itemCli[2])
+                        var.rep.drawString(280, 777, itemCli[3])
+                        var.rep.drawString(350, 667, itemCli[4])
+                        var.rep.drawString(430, 667, itemCli[5])
                         var.rep.line(45, 770, 525, 770)
                         cont = 0
                 Imprimir.pie(self)
@@ -105,36 +109,36 @@ class Imprimir():
             itemCli = ['CÓDIGO', 'ESTADO', 'TÍTULO', 'AUTOR']
             var.rep.setFont('Helvetica-Bold', size=9)
             var.rep.line(45, 680, 525, 680)
-            var.rep.drawString(65, 667, itemCli[0])
-            var.rep.drawString(190, 667, itemCli[1])
-            var.rep.drawString(330, 667, itemCli[2])
-            var.rep.drawString(445, 667, itemCli[3])
+            var.rep.drawString(50, 667, itemCli[0])
+            var.rep.drawString(111, 667, itemCli[1])
+            var.rep.drawString(228, 667, itemCli[2])
+            var.rep.drawString(450, 667, itemCli[3])
             var.rep.line(45, 660, 525, 660)
             query = QtSql.QSqlQuery()
             query.prepare('select codigo, estado, titulo, autor from libros order by codigo')
             if query.exec_():
-                i = 50
+                i = 68
                 j = 645
                 cont = 0
                 while query.next():
-                    var.rep.setFont('Helvetica', size=10)
+                    var.rep.setFont('Helvetica', size=8)
                     var.rep.drawString(i, j, str(query.value(0)))
-                    var.rep.drawString(i + 130, j, str(query.value(1)))
-                    var.rep.drawString(i + 280, j, str(query.value(2)))
-                    var.rep.drawString(i + 400, j, str(query.value(3)))
+                    var.rep.drawString(i + 43, j, str(query.value(1)))
+                    var.rep.drawString(i + 160, j, str(query.value(2)))
+                    var.rep.drawString(i + 382, j, str(query.value(3)))
                     j = j - 30
                     cont = cont + 1
                     if (cont == 20):
                         Imprimir.pie(self)
                         var.rep.showPage()
-                        i = 50
+                        i = 68
                         j = 745
                         var.rep.setFont('Helvetica-Bold', size=9)
                         var.rep.line(45, 790, 525, 790)
-                        var.rep.drawString(65, 777, itemCli[0])
-                        var.rep.drawString(190, 777, itemCli[1])
-                        var.rep.drawString(330, 777, itemCli[2])
-                        var.rep.drawString(445, 777, itemCli[3])
+                        var.rep.drawString(50, 777, itemCli[0])
+                        var.rep.drawString(111, 777, itemCli[1])
+                        var.rep.drawString(228, 777, itemCli[2])
+                        var.rep.drawString(450, 777, itemCli[3])
                         var.rep.line(45, 770, 525, 770)
                         cont = 0
                 Imprimir.pie(self)
@@ -159,26 +163,26 @@ class Imprimir():
 
     def cuerpoSocios(self):
         try:
-            itemCli = ['NUM SOCIO', 'DNI', 'MULTA', 'SANCIÓN']
+            itemCli = ['NUM SOCIO', 'DNI', 'NOMBRE', 'APELLIDOS']
             var.rep.setFont('Helvetica-Bold', size=9)
             var.rep.line(45, 680, 525, 680)
-            var.rep.drawString(65, 667, itemCli[0])
-            var.rep.drawString(190, 667, itemCli[1])
-            var.rep.drawString(330, 667, itemCli[2])
-            var.rep.drawString(445, 667, itemCli[3])
+            var.rep.drawString(50, 667, itemCli[0])
+            var.rep.drawString(130, 667, itemCli[1])
+            var.rep.drawString(200, 667, itemCli[2])
+            var.rep.drawString(350, 667, itemCli[3])
             var.rep.line(45, 660, 525, 660)
             query = QtSql.QSqlQuery()
-            query.prepare('select numSocio, dni, multa, fmulta from socios order by multa desc')
+            query.prepare('select numSocio, dni, nombre, apellidos from socios order by numSocio')
             if query.exec_():
-                i = 50
+                i = 70
                 j = 645
                 cont = 0
                 while query.next():
-                    var.rep.setFont('Helvetica', size=10)
+                    var.rep.setFont('Helvetica', size=8)
                     var.rep.drawString(i, j, str(query.value(0)))
-                    var.rep.drawString(i + 130, j, str(query.value(1)))
-                    var.rep.drawString(i + 280, j, str(query.value(2)))
-                    var.rep.drawString(i + 400, j, str(query.value(3)))
+                    var.rep.drawString(i + 50, j, str(query.value(1)))
+                    var.rep.drawString(i + 130, j, str(query.value(2)))
+                    var.rep.drawString(i + 280, j, str(query.value(3)))
                     j = j - 30
                     cont = cont + 1
                     if (cont == 20):

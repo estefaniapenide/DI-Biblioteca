@@ -1,37 +1,44 @@
 import sys
 from datetime import datetime
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 import zipfile
 import shutil
 import os.path
-import var
 
-from PyQt5.QtWidgets import QVBoxLayout, QLabel, QDialogButtonBox
 
 
 import var
 
+#EVENTOS DE LOS CALENDARIOS
 class Calendario:
 
     def abrirCalendarioPrestamo(self):
+        '''Abre la ventana de diálogo del calendario que cargará las fechas de préstamo'''
+
         try:
             var.uiCalendarioPrestamo.show()
         except Exception as error:
             print('Error abrir calendario: %s' % str(error))
 
     def abrirCalendarioDevolucion(self):
+        '''Abre la ventana de diálogo del calendario que cargará las fechas de devolución'''
+
         try:
             var.uiCalendarioDevolucion.show()
         except Exception as error:
             print('Error abrir calendario: %s' % str(error))
 
     def abrirCalendarioSancion(self):
+        '''Abre la ventana de diálogo del calendario que cargará las fechas de multa'''
+
         try:
             var.uiCalendarioSancion.show()
         except Exception as error:
             print('Error abrir calendario: %s' % str(error))
 
     def cargarFechaDesde(qDate):
+        '''Carga la fecha de inicio de préstamo desde la ventna de dialogo del calendario de préstamo y cierra esa misma ventana'''
+
         try:
             data=('{0}/{1}/{2}'.format(qDate.day(),qDate.month(),qDate.year()))
             var.ui.textBrowserFechaDesde.setText(str(data))
@@ -40,6 +47,8 @@ class Calendario:
             print('Error cargar fecha prestamo: %' % str(error))
 
     def cargarFechaHasta(qDate):
+        '''Carga la fecha de fin de préstamo desde la ventna de dialogo del calendario de préstamo'''
+
         try:
             data = ('{0}/{1}/{2}'.format(qDate.addDays(15).day(), qDate.addDays(15).month(), qDate.addDays(15).year()))
             var.ui.textBrowserFechaHasta.setText(str(data))
@@ -47,6 +56,8 @@ class Calendario:
             print('Error cargar fecha devolución: %s' % str(error))
 
     def cargarFechaDevolucion(qDate):
+        '''Carga la fecha de devolución desde la ventna de dialogo del calendario de devolución y cierra esa misma ventana'''
+
         try:
             data=('{0}/{1}/{2}'.format(qDate.day(),qDate.month(),qDate.year()))
             var.ui.textBrowserFechaDevolucion.setText(str(data))
@@ -55,6 +66,7 @@ class Calendario:
             print('Error cargar fecha devolución: %' % str(error))
 
     def cargarFechaSancion(qDate):
+        '''Carga la fecha de multa desde la ventna de dialogo del calendario de sanción y cierra esa misma ventana'''
         try:
             data = ('{0}/{1}/{2}'.format(qDate.day(), qDate.month(), qDate.year()))
             var.ui.textBrowserSancionHasta.setText(str(data))
@@ -62,36 +74,39 @@ class Calendario:
         except Exception as error:
             print('Error cargar fecha sancion: %' % str(error))
 
+#EVENTOS DE LOS MENSAJES DE AVISO
 class Aviso:
 
     def abrirVentanaAviso(self):
+        '''Abre la ventana de diálogo que contiene el aviso'''
         try:
             var.uiAviso.show()
         except Exception as error:
             print('Error abrir aviso: %s' % str(error))
 
     def cerrarVentanaAviso(self):
+        '''Cierra la ventana de diálogo que contiene el aviso'''
         try:
             var.uiAviso.hide()
         except Exception as error:
             print('Error cerrar aviso: %s' % str(error))
 
     def mensajeVentanaAviso(mensaje):
+        '''Añade el aviso a la ventana de diálogo de avisos'''
         var.uiAviso.setText(mensaje)
-        '''var.uiAviso.layout = QVBoxLayout()
-        var.mensajeAviso = QLabel(mensaje)
-        var.uiAviso.setLayout(var.uiAviso.layout)
-        var.uiAviso.layout.addWidget(var.mensajeAviso)'''
 
-
+#EVENTOS SALIR
 class Salir:
+
     def salir(self):
+        '''Cierra el programa'''
         try:
             sys.exit()
         except Exception as error:
             print("Error salir : %s " % str(error))
 
     def preguntaSalir(self):
+        ''''''
         try:
             var.uiSalir.show()
             if var.uiSalir.exec():

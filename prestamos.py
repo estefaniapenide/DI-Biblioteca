@@ -4,8 +4,6 @@ import conexion
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-import ventanaAviso
-from PyQt5.QtWidgets import QVBoxLayout, QLabel, QPushButton
 
 
 class Prestamos:
@@ -64,15 +62,15 @@ class Prestamos:
                     conexion.Socios.mostrarSocios(self)
                 else:
                     print('EL LIBRO NO ESTÁ PRESTADO')
-                    eventos.Aviso.mensajeVentanaAviso('EL LIBRO NO ESTÁ PRESTADO')
+                    eventos.Aviso.mensajeVentanaAviso("EL LIBRO '"+devolucion[0]+"' NO ESTÁ PRESTADO\nPOR LO QUE NO ES POSIBLE DEVOLVERLO")
                     eventos.Aviso.abrirVentanaAviso(self)
             else:
                 print('EL LIBRO NO EXISTE')
-                eventos.Aviso.mensajeVentanaAviso('EL LIBRO NO EXISTE')
+                eventos.Aviso.mensajeVentanaAviso("EL LIBRO '"+devolucion[0]+"' NO EXISTE EN LA BIBLIOTECA")
                 eventos.Aviso.abrirVentanaAviso(self)
         else:
             print('DEBE INTRODUCIR:\n-CÓDIGO DEL LIBRO\n-FECHA DE DEVOLUCIÓN')
-            eventos.Aviso.mensajeVentanaAviso('DEBE INTRODUCIR:\n-CÓDIGO DEL LIBRO\n-FECHA DE DEVOLUCIÓN')
+            eventos.Aviso.mensajeVentanaAviso('PARA AÑADIR UNA DEVOLUCIÓN DEBE INTRODUCIR:\n\n-CÓDIGO DEL LIBRO\n-FECHA DE DEVOLUCIÓN')
             eventos.Aviso.abrirVentanaAviso(self)
 
 
@@ -96,15 +94,15 @@ class Prestamos:
                     conexion.Socios.mostrarSocios(self)
                 else:
                     print('EL SOCIO TIENE MULTA O NO PUEDE PEDIR MÁS LIBROS PRESTADOS O EL NÚMERO DE SOCIO NO EXISTE')
-                    eventos.Aviso.mensajeVentanaAviso("NO ES POSIBLE REGISTRAR EL PRÉSTAMO DEBIDO A:\n- EL SOCIO TIENE MULTA\n- EL SOCIO NO PUEDE PEDIR MÁS LIBROS PRESTADOS\n- EL NÚMERO DE SOCIO NO EXISTE")
+                    eventos.Aviso.mensajeVentanaAviso("NO ES POSIBLE REGISTRAR EL PRÉSTAMO DEBIDO A UNO DE ESTOS MOVITOS:\n\n- EL SOCIO TIENE MULTA\n- EL SOCIO NO PUEDE PEDIR MÁS LIBROS PRESTADOS\n- EL NÚMERO DE SOCIO NO EXISTE")
                     eventos.Aviso.abrirVentanaAviso(self)
             else:
                 print('EL LIBRO NO ESTÁ DISPONIBLE')
-                eventos.Aviso.mensajeVentanaAviso('EL LIBRO NO ESTÁ DISPONIBLE')
+                eventos.Aviso.mensajeVentanaAviso("EL LIBRO '"+prestamo[1]+"' NO ESTÁ DISPONIBLE")
                 eventos.Aviso.abrirVentanaAviso(self)
         else:
             print('DEBE INTRODUCIR:\n-NÚMERO DE SOCIO\n-CÓDIGO DEL LIBRO\n-FECHA DE PRÉSTAMO')
-            eventos.Aviso.mensajeVentanaAviso('DEBE INTRODUCIR:\n- NÚMERO DE SOCIO\n- CÓDIGO DEL LIBRO\n- FECHA DE PRÉSTAMO')
+            eventos.Aviso.mensajeVentanaAviso('PARA AÑADIR UN PRÉSTAMO DEBE INTRODUCIR:\n\n- NÚMERO DE SOCIO\n- CÓDIGO DEL LIBRO\n- FECHA DE PRÉSTAMO')
             eventos.Aviso.abrirVentanaAviso(self)
 
     def limpiarPrestamos(self):
