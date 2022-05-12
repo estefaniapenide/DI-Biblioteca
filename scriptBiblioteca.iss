@@ -3,7 +3,7 @@
 
 #define MyAppName "Biblioteca"
 #define MyAppVersion "1.5"
-#define MyAppPublisher "EstefaniaPenide"
+#define MyAppPublisher "Estefania Penide"
 #define MyAppURL "https://www.estefaniapenide.com/"
 #define MyAppExeName "main.exe"
 #define MyAppAssocName MyAppName + " File"
@@ -13,7 +13,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{CE7BC669-3465-4294-88F7-234C40181991}
+AppId={{61755DC3-8EAB-4FBD-8BAD-801A74BAF69C}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -28,7 +28,6 @@ LicenseFile=C:\Users\Estefania\Desktop\Biblioteca\dist\licencia.txt
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputDir=InstaladorBiblioteca
 OutputBaseFilename=setupBiblioteca
 SetupIconFile=C:\Users\Estefania\Desktop\Biblioteca\biblioteca.ico
 Compression=lzma

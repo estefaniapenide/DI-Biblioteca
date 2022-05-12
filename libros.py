@@ -79,7 +79,7 @@ class Libros:
         try:
             codigo = var.ui.labelCodigoGenerado.text()
             if (conexion.Libros.existeLibro(codigo)):
-                conexion.Libros.bajaLibro(var.libroEliminar)
+                conexion.Libros.bajaLibro(codigo)
                 eventos.Aviso.mensajeVentanaAviso("LIBRO ELIMINADO")
                 eventos.Aviso.abrirVentanaAviso(self)
                 conexion.Libros.mostrarLibros(self)
