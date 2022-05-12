@@ -158,6 +158,9 @@ class Libros:
 
 
     def buscarLibroCodigo(self):
+        '''Recoge el código del libro introducido por el ususario y devuelve los valores del libro en los
+        distintos campos del formulario y en la tabla de la interfaz gráfica'''
+
         id = var.ui.lineEditCodigo.text()
         if conexion.Libros.existeLibro(id):
             conexion.Libros.buscarLibroCodigo(id)
@@ -210,6 +213,9 @@ class Libros:
             print('NO EXISTE EL LIBRO EN LA DB ')
 
     def buscarLibroTitulo(self):
+        '''Recoge el título del libro introducido por el ususario y devuelve los datos del libro
+        o libros coincidentes con ese título en la tabla de la interfaz gráfica'''
+
         titulo = var.ui.lineEditTitulo.text().upper()
         if conexion.Libros.existeLibroTitulo(titulo):
             conexion.Libros.buscarLibroTitulo(titulo)
@@ -226,6 +232,9 @@ class Libros:
             print('NO EXISTE EL LIBRO EN LA DB ')
 
     def buscarLibroAutor(self):
+        '''Recoge el autor del libro introducido por el ususario y devuelve los datos del libro
+               o libros coincidentes con ese autor en la tabla de la interfaz gráfica'''
+
         autor = var.ui.lineEditAutor.text().upper()
         if conexion.Libros.existeLibroAutor(autor):
             conexion.Libros.buscarLibroAutor(autor)
@@ -243,6 +252,9 @@ class Libros:
 
 
     def buscarLibroGenero(self):
+        '''Recoge el género del libro introducido por el ususario y devuelve los datos del libro
+               o libros coincidentes con ese género en la tabla de la interfaz gráfica'''
+
         genero = var.generoLibro
         if conexion.Libros.existeLibroGenero(genero):
             conexion.Libros.buscarLibroGenero(genero)
@@ -278,6 +290,9 @@ class Libros:
 
 
     def buscarLibroEstado(self):
+        '''Recoge el estado del libro introducido por el ususario y devuelve los datos del libro
+               o libros coincidentes con ese estado en la tabla de la interfaz gráfica'''
+
         estado = var.estadoLibro
         if conexion.Libros.existeLibroEstado(estado):
             conexion.Libros.buscarLibroEstado(estado)

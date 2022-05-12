@@ -5,10 +5,13 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 
-
+#GESTIÓN DE PRÉSTAMOS
 class Prestamos:
 
     def gestionMultas(prestamo):
+        '''Actualiza la multa de un socio en función de los cambios hechos en los préstamos.
+        Si un préstamo, a día actual, no se ha devuelto, pondrá multa y salción al socio que tiene el libro.
+        Si se registra una devolución y es posterior a la fecha de fin de préstamo, pondrá multa y sanción al socio que devuelve el libro'''
 
         multa=False
         fmulta=None
@@ -41,6 +44,9 @@ class Prestamos:
 
 
     def modificarPrestamo(self):
+        '''Recoge los datos que ha introducido el usuario para añadir una devolución
+        y la registra modificando el dato de préstamo prexistente'''
+
         devolucion=[str(var.ui.datoCodigoLibroDevolucion.text()),str(var.ui.textBrowserFechaDevolucion.toPlainText())]
         if devolucion[0] !='' and devolucion[1]!='':
             if conexion.Libros.existeLibro(devolucion[0]):
@@ -77,6 +83,8 @@ class Prestamos:
 
 
     def guardarPrestamo(self):
+        '''Recoge los datos que ha introducido el usuario para guardar el el préstamo y guarda el libro'''
+
         if str(var.ui.datoNumeroSocioPrestamo.text())!='' and str(var.ui.datoCodigoLibroPrestamo.text())!='' and str(var.ui.textBrowserFechaDesde.toPlainText())!='':
             var.ui.textBrowserFechaDevolucion.setText('')
             prestamo = [var.ui.datoNumeroSocioPrestamo.text(), var.ui.datoCodigoLibroPrestamo.text(), var.ui.textBrowserFechaDesde.toPlainText(), var.ui.textBrowserFechaHasta.toPlainText(), 'False',var.ui.textBrowserFechaDevolucion.toPlainText()]
@@ -106,6 +114,7 @@ class Prestamos:
             eventos.Aviso.abrirVentanaAviso(self)
 
     def limpiarPrestamos(self):
+        '''Vacía todos los campos del formulario prestamos y devoluciones  de la interfaz gráfica'''
 
         var.ui.datoNumeroSocioPrestamo.setText("")
         var.ui.datoCodigoLibroPrestamo.setText("")

@@ -1,3 +1,5 @@
+
+#VENTANAS
 global ui
 global uiCalendarioPrestamo
 global uiCalendarioDevolucion
@@ -5,16 +7,19 @@ global uiCalendarioSancion
 global uiAviso
 global uiAbrir
 global uiSalir
-global filedb
 global mensajeAviso
+
+#BASE DE DATOS
+global filedb
+
+#PRESTAMOS/DEVOLUCIONES
+global devuelto
 
 #LIBROS
 global estadoLibro
 global generoLibro
 global etiquetas
 global checkBoxEtiquetas
-
-
 #variables para la búsqueda de un libro
 global codigo
 global estado
@@ -23,17 +28,11 @@ global autor
 global genero
 global etiqueta
 
-#PRESTAMOS
-global devuelto
-
-#variables para la búsqueda de un préstamo
-
 
 #SOCIOS
 global multaSocio
 global sexoSocio
 global numLibrosSocio
-
 #Variables para la busqueda de socio
 global numSocio
 global dni

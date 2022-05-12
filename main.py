@@ -1,5 +1,3 @@
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QVBoxLayout, QLabel, QPushButton, QDialogButtonBox, QMessageBox
 
 import eventos
 import libros
@@ -171,8 +169,6 @@ class Aviso(QtWidgets.QMessageBox):
         super(Aviso,self).__init__()
         var.uiAviso = ventanaAviso.Ui_DialogAviso()
         var.uiAviso.setupUi(self)
-
-
 
 
 class DialogoAbrir(QtWidgets.QFileDialog):
