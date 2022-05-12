@@ -2,10 +2,12 @@ import eventos
 import var
 import conexion
 
-
+#GESTIÓN DE LIBROS
 class Libros:
 
     def cargarGenero(self):
+        '''Carga los géneros que puede tener el libro en el comboBox de la interfaz gráfica'''
+
         try:
             genero=['','Narrativa','Teatro','Poesía','Ensayo']
             for i in genero:
@@ -14,12 +16,16 @@ class Libros:
             print('Error al cargar género: %s'% str(error))
 
     def seleccionarGenero(genero):
+        '''Selecciona el género que ha marcado el usuario'''
+
         try:
             var.generoLibro=genero
         except Exception as error:
             print('Error: %s' % str(error))
 
     def seleccionarEstado(self):
+        '''Selecciona el estado que ha marcado el usuario'''
+
         try:
             index = var.ui.spinBoxEstado.value()
             estado = ['DISPONIBLE', 'NO DISPONIBLE/PRESTADO']
@@ -27,10 +33,12 @@ class Libros:
             var.ui.indicadorEstado.setText(var.estadoLibro)
             var.ui.indicadorEstado.setText(var.estadoLibro)
         except Exception as error:
-            print('Error seleccionar envío: %s' % str(error))
+            print('Error seleccionar estado: %s' % str(error))
 
 
     def seleccionarEtiquetas(self):
+        '''Selecciona las etiquetas que ha marcado el usuario'''
+
         try:
             var.etiquetas = [] #Se guardará en la base de datos
             if var.ui.checkBoxAventuras.isChecked():
@@ -46,16 +54,19 @@ class Libros:
             if var.ui.checkBoxRomantica.isChecked():
                 var.etiquetas.append('Romántica')
 
-
         except Exception as error:
             print('Error selccionar etiquetas: %s' % str(error))
 
     def marcarEtiquetas(self):
+        '''Escucha la marcación de etiquetas por parte del usuario'''
+
         var.checkBoxEtiquetas = (var.ui.checkBoxAventuras, var.ui.checkBoxFantasia, var.ui.checkBoxFilosofia, var.ui.checkBoxIntriga, var.ui.checkBoxHistorica, var.ui.checkBoxRomantica)
         for i in var.checkBoxEtiquetas:
             i.stateChanged.connect(Libros.seleccionarEtiquetas)
 
     def guardarLibro(self):
+        '''Recoge los datos que ha introducido el usuario para guardar el libro y guarda el libro'''
+
         try:
             libro = [var.estadoLibro, var.ui.lineEditTitulo.text().upper(), var.ui.lineEditAutor.text().upper(), var.generoLibro, var.etiquetas]
 
@@ -76,6 +87,8 @@ class Libros:
 
 
     def eliminarLibro(self):
+        '''Recoge el dato de código de libro indicado por el usuario para eliminar el libro y elimina el libro'''
+
         try:
             codigo = var.ui.labelCodigoGenerado.text()
             if (conexion.Libros.existeLibro(codigo)):
@@ -100,6 +113,8 @@ class Libros:
 
 
     def modificarLibro(self):
+        '''Recoge los datos que ha introducido el usuario para modificar el libro y modifica el libro'''
+
         try:
             libro = [var.ui.labelCodigoGenerado.text(), var.estadoLibro, var.ui.lineEditTitulo.text().upper(), var.ui.lineEditAutor.text().upper(), var.generoLibro, var.etiquetas]
             if (conexion.Libros.existeLibro(libro[0])):
@@ -123,6 +138,7 @@ class Libros:
 
 
     def limpiarLibro(self):
+        '''Vacía todos los campos del formulario libro de la interfaz gráfica'''
 
         var.ui.lineEditCodigo.setText("")
         var.ui.lineEditTitulo.setText("")

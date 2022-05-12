@@ -4,9 +4,12 @@ import var
 from PyQt5 import QtSql
 from datetime import datetime
 
+#IMPRIMIR INFORMES
 class Imprimir():
 
     def pie(self):
+        '''Escribe el pie de un informe indicando la página del mismo y la fecha en la que se ha generado'''
+
         try:
             var.rep.line(45,45,525,45)
             fecha= datetime.today()
@@ -19,6 +22,9 @@ class Imprimir():
 
 
     def cabecera(titulo):
+        '''Escribe la cebecera de un informe donde se indican los datos
+         "BIBLIOTECA IES TEIS, Avenida de Galicia 101- Vigo, 8886 12 04 04"
+         más el título del listado correspondiente que se pasa por parámetro'''
         try:
             var.rep.setTitle('INFORMES %s' % titulo)
             var.rep.setAuthor('IES Teis')
@@ -38,6 +44,8 @@ class Imprimir():
             print('Error cabecera informe prestamos: %s' % str(error))
 
     def cuerpoPrestamos(self):
+        '''Escribe el cuerpo del informe préstamos que consiste en la lista de los datos Número de Socio,
+        Código del Libro, Desde, Hasta, Devuelto y Fecha de devolución'''
         try:
             itemCli=['NUM SOCIO', 'COD LIBRO', 'DESDE','HASTA','DEVUELTO','FECHA DEVOLUCIÓN']
             var.rep.setFont('Helvetica-Bold', size=9)
@@ -88,6 +96,8 @@ class Imprimir():
 
 
     def informePrestamos(self):
+        '''Imprime el informe de préstamos en la carpeta raíz'''
+
         try:
             var.rep = canvas.Canvas('Listado_prestamos.pdf')
             Imprimir.cabecera('PRÉSTAMOS')
@@ -105,6 +115,8 @@ class Imprimir():
 
 
     def cuerpoLibros(self):
+        '''Escribe el cuerpo del informe libros que consiste en la lista de los datos Código de Libro,
+               Estado, Título y Autor'''
         try:
             itemCli = ['CÓDIGO', 'ESTADO', 'TÍTULO', 'AUTOR']
             var.rep.setFont('Helvetica-Bold', size=9)
@@ -146,6 +158,8 @@ class Imprimir():
             print('Error cuerpo informe libros: %s' % str(error))
 
     def informeLibros(self):
+        '''Imprime el informe de libros en la carpeta raíz'''
+
         try:
             var.rep = canvas.Canvas('Listado_libros.pdf')
             Imprimir.cabecera('LIBROS')
@@ -162,6 +176,9 @@ class Imprimir():
 
 
     def cuerpoSocios(self):
+        '''Escribe el cuerpo del informe socios que consiste en la lista de los datos Número de socio,
+         DNI, Nombre y Apellidos'''
+
         try:
             itemCli = ['NUM SOCIO', 'DNI', 'NOMBRE', 'APELLIDOS']
             var.rep.setFont('Helvetica-Bold', size=9)
@@ -203,6 +220,8 @@ class Imprimir():
             print('Error cuerpo informe libros: %s' % str(error))
 
     def informeSocios(self):
+        '''Imprime el informe de socios en la carpeta raíz'''
+
         try:
             var.rep = canvas.Canvas('Listado_socios.pdf')
             Imprimir.cabecera('SOCIOS')

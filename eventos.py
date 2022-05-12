@@ -106,7 +106,9 @@ class Salir:
             print("Error salir : %s " % str(error))
 
     def preguntaSalir(self):
-        ''''''
+        '''Abre la ventana de dialogo de salir.
+        Cierra el programa si se pulsa Ok, cierra la ventana si se pulsa Cancel'''
+
         try:
             var.uiSalir.show()
             if var.uiSalir.exec():
@@ -119,6 +121,8 @@ class Salir:
 class Comprimir:
 
     def BackupBaseDatos(self):
+        '''Abre una ventana de dialogo y permite guardar una copia de la base de datos en un archivo zip'''
+
         try:
             fecha = datetime.today()
             fecha = fecha.strftime('%Y.%m.%d.%H.%M.%S')
